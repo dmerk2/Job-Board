@@ -35,7 +35,6 @@ const jobSchema = new Schema({
   employerId: {
     type: Schema.Types.ObjectId,
     ref: "User",
-    required: true,
     index: true,
   },
 });
