@@ -58,7 +58,12 @@ const userSchema = new Schema({
     {
       type: Schema.Types.ObjectId,
       ref: "Job",
-      required: true,
+    },
+  ],
+  listedJobs: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: "Job",
     },
   ],
 });
