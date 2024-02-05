@@ -10,7 +10,11 @@ const jobSchema = new Schema({
   description: {
     type: String,
     required: true,
-    trim: true
+    trim: true,
+  },
+  salary: {
+    type: Number,
+    trim: true,
   },
   createdAt: {
     type: Date,
@@ -20,8 +24,14 @@ const jobSchema = new Schema({
   location: {
     type: String,
     required: true,
-    trim: true
+    trim: true,
   },
+  skills: [
+    {
+      type: String,
+      trim: true,
+    },
+  ],
   employerId: {
     type: Schema.Types.ObjectId,
     ref: "User",

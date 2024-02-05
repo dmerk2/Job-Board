@@ -6,6 +6,7 @@ const userSchema = new Schema({
   username: {
     type: String,
     require: true,
+    unique: true,
     trim: true,
   },
   email: {
@@ -37,11 +38,29 @@ const userSchema = new Schema({
     type: String,
     trim: true,
   },
+  location: {
+    type: String,
+    required: true,
+    trim: true,
+  },
   createdAt: {
     type: Date,
     default: Date.now,
     immutable: true,
   },
+  skills: [
+    {
+      type: String,
+      trim: true,
+    },
+  ],
+  appliedJobs: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: "Job",
+      required: true,
+    },
+  ],
 });
 
 // create virtual field for full name
