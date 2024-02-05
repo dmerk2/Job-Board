@@ -1,5 +1,43 @@
 const typeDefs = `
+  type Application {
+    _id: ID
+    jobId: Job
+    applicantId: [User]
+  }
 
+  type Job {
+    _id: ID
+    title: String
+    description: String
+    createdAt: String
+    location: String
+    employerId: User
+  }  
+
+  type User {
+    _id: ID
+    username: String
+    email: String
+    password: String
+    role: String
+    firstName: String
+    lastName: String
+    bio: String
+    createdAt: String
+  }
+
+  type Auth {
+    token: ID
+    user: User
+  }
+
+  type Query {
+    user: User
+  }
+
+  type Mutation {
+    addUser(username: String!, email: String!, password: String!, role: String!, firstName: String!, lastName: String!, bio: String!, createdAt: String!): Auth
+  }
 `;
 
 module.exports = typeDefs;
