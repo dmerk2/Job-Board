@@ -21,17 +21,14 @@ const userSchema = new Schema({
   },
   role: {
     type: String,
-    required: true,
     enum: ["employee", "employer"],
   },
   firstName: {
     type: String,
-    required: true,
     trim: true,
   },
   lastName: {
     type: String,
-    required: true,
     trim: true,
   },
   bio: {
@@ -40,7 +37,6 @@ const userSchema = new Schema({
   },
   location: {
     type: String,
-    required: true,
     trim: true,
   },
   createdAt: {
@@ -73,11 +69,13 @@ userSchema.virtual("fullName").get(function () {
   return `${this.firstName} ${this.lastName}`;
 });
 
-// set up the pre-save middleware to hash the created password
-userSchema.pre("save", async function (next) {
+// set up pre-save middleware to create password
+userSchema.pre('save', async function(next) {
+  console.log("Pre-save middleware triggered");
   try {
-    if (this.isNew || this.isModified("password")) {
-      this.password = await bcrypt.hash(this.password, 10);
+    if (this.isNew || this.isModified('password')) {
+      const saltRounds = 10;
+      this.password = await bcrypt.hash(this.password, saltRounds);
     }
     next();
   } catch (error) {

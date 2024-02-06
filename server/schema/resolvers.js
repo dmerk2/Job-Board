@@ -11,10 +11,31 @@ const resolvers = {
 
       throw AuthenticationError;
     },
+    users: async (_, { role }) => {
+      if (role) {
+        const users = await User.find({ role });
+        return users;
+      }
+      return await User.find();
+    },
   },
   Mutation: {
     addUser: async (parent, args) => {
       const user = await User.create(args);
+      const token = signToken(user);
+      return { user, token };
+    },
+    login: async (parent, { email, password }) => {
+      const user = await User.findOne({ email });
+      if (!user) {
+        console.error("User not found");
+        throw AuthenticationError;
+      }
+      const correctPw = await user.isCorrectPassword(password);
+      if (!correctPw) {
+        console.error("Incorect password");
+        throw AuthenticationError;
+      }
       const token = signToken(user);
       return { user, token };
     },

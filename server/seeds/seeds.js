@@ -66,134 +66,212 @@ db.once("open", async () => {
   ]);
 
   console.log("Jobs seeded");
-  const users = await User.insertMany([
-    {
-      username: "CompanyInc",
-      email: "companyinc@email.com",
-      password: "password",
-      role: "employer",
-      firstName: "John",
-      lastName: "Doe",
-      bio: "We are a company that is looking to hire the best talent in the industry. We are a fast-growing company that is looking to expand our team. We are looking for talented individuals who are passionate about their work and are looking to grow with us.",
-      location: "New Jersey",
-      createdAt: new Date(),
-      skills: ["HTML", "CSS", "JavaScript", "Node.js", "Express", "MongoDB"],
-      listedJobs: [{ _id: jobs[0]._id }, { _id: jobs[1]._id }],
-    },
-    {
-      username: "StartupCo",
-      email: "startingup@email.com",
-      password: "password",
-      role: "employer",
-      firstName: "Jane",
-      lastName: "Smith",
-      bio: "We are a startup that is looking to hire the best talent in the industry. We are a fast-growing company that is looking to expand our team. We are looking for talented individuals who are passionate about their work and are looking to grow with us.",
-      location: "New York City",
-      createdAt: new Date(),
-      skills: ["HTML", "CSS", "JavaScript", "Node.js", "Express", "MongoDB"],
-      listedJobs: [{ _id: jobs[2]._id }, { _id: jobs[3]._id }],
-    },
-    {
-      username: "WebDevCo",
-      email: "webco@email.com",
-      password: "password",
-      role: "employer",
-      firstName: "James",
-      lastName: "Johnson",
-      bio: "We are a company that is looking to hire the best talent in the industry. We are a fast-growing company that is looking to expand our team. We are looking for talented individuals who are passionate about their work and are looking to grow with us.",
-      location: "Los Angeles",
-      createdAt: new Date(),
-      skills: ["HTML", "CSS", "JavaScript", "Node.js", "Express", "MongoDB"],
-      listedJobs: [{ _id: jobs[4]._id }, { _id: jobs[5]._id }],
-    },
-    {
-      username: "DanMerkin",
-      email: "dan@email.com",
-      password: "password",
-      role: "employee",
-      firstName: "Dan",
-      lastName: "Merkin",
-      bio: "I am a tech guy who wants to do tech things.",
-      location: "New Jersey",
-      createdAt: new Date(),
-      skills: ["HTML", "CSS", "JavaScript", "Node.js", "Express", "MongoDB"],
-    },
-    {
-      username: "JesseLoCascio",
-      email: "jesse@email.com",
-      password: "password",
-      role: "employee",
-      firstName: "Jesse",
-      lastName: "LoCascio",
-      bio: "Let me work for you. I am good at things. I am a good worker. I am a good person. I am good.",
-      location: "New York City",
-      createdAt: new Date(),
-      skills: ["HTML", "CSS", "JavaScript", "Node.js", "Express", "MongoDB"],
-    },
-    {
-      username: "ThirdEmployee",
-      email: "numberthree@email.com",
-      password: "password",
-      role: "employee",
-      firstName: "Third",
-      lastName: "Employee",
-      bio: "Who am I? Do I really exist? I am a mystery. I am a ghost. I am a shadow. I am a whisper",
-      location: "Los Angeles",
-      createdAt: new Date(),
-      skills: ["HTML", "CSS", "JavaScript", "Node.js", "Express", "MongoDB"],
-    },
-  ]);
+  //   {
+  //     username: "CompanyInc",
+  //     email: "companyinc@email.com",
+  //     password: "password",
+  //     role: "employer",
+  //     firstName: "John",
+  //     lastName: "Doe",
+  //     bio: "We are a company that is looking to hire the best talent in the industry. We are a fast-growing company that is looking to expand our team. We are looking for talented individuals who are passionate about their work and are looking to grow with us.",
+  //     location: "New Jersey",
+  //     createdAt: new Date(),
+  //     skills: ["HTML", "CSS", "JavaScript", "Node.js", "Express", "MongoDB"],
+  //     listedJobs: [{ _id: jobs[0]._id }, { _id: jobs[1]._id }],
+  //   },
+  //   {
+  //     username: "StartupCo",
+  //     email: "startingup@email.com",
+  //     password: "password",
+  //     role: "employer",
+  //     firstName: "Jane",
+  //     lastName: "Smith",
+  //     bio: "We are a startup that is looking to hire the best talent in the industry. We are a fast-growing company that is looking to expand our team. We are looking for talented individuals who are passionate about their work and are looking to grow with us.",
+  //     location: "New York City",
+  //     createdAt: new Date(),
+  //     skills: ["HTML", "CSS", "JavaScript", "Node.js", "Express", "MongoDB"],
+  //     listedJobs: [{ _id: jobs[2]._id }, { _id: jobs[3]._id }],
+  //   },
+  //   {
+  //     username: "WebDevCo",
+  //     email: "webco@email.com",
+  //     password: "password",
+  //     role: "employer",
+  //     firstName: "James",
+  //     lastName: "Johnson",
+  //     bio: "We are a company that is looking to hire the best talent in the industry. We are a fast-growing company that is looking to expand our team. We are looking for talented individuals who are passionate about their work and are looking to grow with us.",
+  //     location: "Los Angeles",
+  //     createdAt: new Date(),
+  //     skills: ["HTML", "CSS", "JavaScript", "Node.js", "Express", "MongoDB"],
+  //     listedJobs: [{ _id: jobs[4]._id }, { _id: jobs[5]._id }],
+  //   },
+  //   {
+  //     username: "DanMerkin",
+  //     email: "dan@email.com",
+  //     password: "password",
+  //     role: "employee",
+  //     firstName: "Dan",
+  //     lastName: "Merkin",
+  //     bio: "I am a tech guy who wants to do tech things.",
+  //     location: "New Jersey",
+  //     createdAt: new Date(),
+  //     skills: ["HTML", "CSS", "JavaScript", "Node.js", "Express", "MongoDB"],
+  //   },
+  //   {
+  //     username: "JesseLoCascio",
+  //     email: "jesse@email.com",
+  //     password: "password",
+  //     role: "employee",
+  //     firstName: "Jesse",
+  //     lastName: "LoCascio",
+  //     bio: "Let me work for you. I am good at things. I am a good worker. I am a good person. I am good.",
+  //     location: "New York City",
+  //     createdAt: new Date(),
+  //     skills: ["HTML", "CSS", "JavaScript", "Node.js", "Express", "MongoDB"],
+  //   },
+  //   {
+  //     username: "ThirdEmployee",
+  //     email: "numberthree@email.com",
+  //     password: "password",
+  //     role: "employee",
+  //     firstName: "Third",
+  //     lastName: "Employee",
+  //     bio: "Who am I? Do I really exist? I am a mystery. I am a ghost. I am a shadow. I am a whisper",
+  //     location: "Los Angeles",
+  //     createdAt: new Date(),
+  //     skills: ["HTML", "CSS", "JavaScript", "Node.js", "Express", "MongoDB"],
+  //   },
+  // ]);
+
+  const user1 = await User.create({
+    username: "CompanyInc",
+    email: "companyinc@email.com",
+    password: "password",
+    role: "employer",
+    firstName: "John",
+    lastName: "Doe",
+    bio: "We are a company that is looking to hire the best talent in the industry. We are a fast-growing company that is looking to expand our team. We are looking for talented individuals who are passionate about their work and are looking to grow with us.",
+    location: "New Jersey",
+    createdAt: new Date(),
+    skills: ["HTML", "CSS", "JavaScript", "Node.js", "Express", "MongoDB"],
+    listedJobs: [{ _id: jobs[0]._id }, { _id: jobs[1]._id }],
+  });
+
+  const user2 = await User.create({
+    username: "StartupCo",
+    email: "startingup@email.com",
+    password: "password",
+    role: "employer",
+    firstName: "Jane",
+    lastName: "Smith",
+    bio: "We are a startup that is looking to hire the best talent in the industry. We are a fast-growing company that is looking to expand our team. We are looking for talented individuals who are passionate about their work and are looking to grow with us.",
+    location: "New York City",
+    createdAt: new Date(),
+    skills: ["HTML", "CSS", "JavaScript", "Node.js", "Express", "MongoDB"],
+    listedJobs: [{ _id: jobs[2]._id }, { _id: jobs[3]._id }],
+  });
+
+  const user3 = await User.create({
+    username: "WebDevCo",
+    email: "webco@email.com",
+    password: "password",
+    role: "employer",
+    firstName: "James",
+    lastName: "Johnson",
+    bio: "We are a company that is looking to hire the best talent in the industry. We are a fast-growing company that is looking to expand our team. We are looking for talented individuals who are passionate about their work and are looking to grow with us.",
+    location: "Los Angeles",
+    createdAt: new Date(),
+    skills: ["HTML", "CSS", "JavaScript", "Node.js", "Express", "MongoDB"],
+    listedJobs: [{ _id: jobs[4]._id }, { _id: jobs[5]._id }],
+  });
+
+  const user4 = await User.create({
+    username: "DanMerkin",
+    email: "dan@email.com",
+    password: "password",
+    role: "employee",
+    firstName: "Dan",
+    lastName: "Merkin",
+    bio: "I am a tech guy who wants to do tech things.",
+    location: "New Jersey",
+    createdAt: new Date(),
+    skills: ["HTML", "CSS", "JavaScript", "Node.js", "Express", "MongoDB"],
+  });
+
+  const user5 = await User.create({
+    username: "JesseLoCascio",
+    email: "jesse@email.com",
+    password: "password",
+    role: "employee",
+    firstName: "Jesse",
+    lastName: "LoCascio",
+    bio: "Let me work for you. I am good at things. I am a good worker. I am a good person. I am good.",
+    location: "New York City",
+    createdAt: new Date(),
+    skills: ["HTML", "CSS", "JavaScript", "Node.js", "Express", "MongoDB"],
+  });
+
+  const user6 = await User.create({
+    username: "ThirdEmployee",
+    email: "numberthree@email.com",
+    password: "password",
+    role: "employee",
+    firstName: "Third",
+    lastName: "Employee",
+    bio: "Who am I? Do I really exist? I am a mystery. I am a ghost. I am a shadow. I am a whisper",
+    location: "Los Angeles",
+    createdAt: new Date(),
+    skills: ["HTML", "CSS", "JavaScript", "Node.js", "Express", "MongoDB"],
+  });
 
   console.log("Users seeded");
 
   await Job.updateMany(
-    { _id: { $in: jobs.map((job) => job._id) }, role: 'employer'},
-    { $set: { employerId: users[0]._id } }
+    { _id: { $in: jobs.map((job) => job._id) }, role: "employer" },
+    { $set: { employerId: user1._id } }
   );
 
   console.log("Updated Jobs");
 
+  const userJobMapping = [
+    { userId: user4._id, jobIds: [jobs[0]._id, jobs[1]._id] },
+    { userId: user5._id, jobIds: [jobs[2]._id, jobs[3]._id] },
+    { userId: user6._id, jobIds: [jobs[4]._id, jobs[5]._id] },
+  ];
 
-const userJobMapping = [
-  { userId: users[3]._id, jobIds: [jobs[0]._id, jobs[1]._id] },
-  { userId: users[4]._id, jobIds: [jobs[2]._id, jobs[3]._id] },
-  { userId: users[5]._id, jobIds: [jobs[4]._id, jobs[5]._id] },
-];
-
-
-for (const mapping of userJobMapping) {
-  await User.updateOne(
-    { _id: mapping.userId },
-    { $set: { appliedJobs: mapping.jobIds } }
-  );
-}
+  for (const mapping of userJobMapping) {
+    await User.updateOne(
+      { _id: mapping.userId },
+      { $set: { appliedJobs: mapping.jobIds } }
+    );
+  }
 
   console.log("Updated Users");
 
   const applications = await Application.insertMany([
     {
       jobId: jobs[0]._id,
-      applicantId: [{ _id: users[3]._id }],
+      applicantId: [{ _id: user4._id }],
     },
     {
       jobId: jobs[1]._id,
-      applicantId: [{ _id: users[3]._id }],
+      applicantId: [{ _id: user4._id }],
     },
     {
       jobId: jobs[2]._id,
-      applicantId: [{ _id: users[4]._id }],
+      applicantId: [{ _id: user5._id }],
     },
     {
       jobId: jobs[3]._id,
-      applicantId: [{ _id: users[4]._id }],
+      applicantId: [{ _id: user5._id }],
     },
     {
       jobId: jobs[4]._id,
-      applicantId: [{ _id: users[5]._id }],
+      applicantId: [{ _id: user6._id }],
     },
     {
       jobId: jobs[5]._id,
-      applicantId: [{ _id: users[5]._id }],
+      applicantId: [{ _id: user6._id }],
     },
   ]);
 

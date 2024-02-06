@@ -33,10 +33,12 @@ const typeDefs = `
 
   type Query {
     user: User
+    users(role: String!): [User!]!
   }
 
   type Mutation {
-    addUser(username: String!, email: String!, password: String!, role: String!, firstName: String!, lastName: String!, bio: String!, createdAt: String!): Auth
+    login(email: String!, password: String!): Auth
+    addUser(username: String!, email: String!, password: String!, role: String!): Auth
   }
 `;
 
