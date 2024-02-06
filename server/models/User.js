@@ -21,17 +21,14 @@ const userSchema = new Schema({
   },
   role: {
     type: String,
-    required: true,
     enum: ["employee", "employer"],
   },
   firstName: {
     type: String,
-    required: true,
     trim: true,
   },
   lastName: {
     type: String,
-    required: true,
     trim: true,
   },
   bio: {
@@ -40,7 +37,6 @@ const userSchema = new Schema({
   },
   location: {
     type: String,
-    required: true,
     trim: true,
   },
   createdAt: {

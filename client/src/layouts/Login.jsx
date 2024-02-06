@@ -2,23 +2,25 @@ import { useMutation } from "@apollo/client";
 import { LOGIN } from "../utils/mutations";
 import auth from "../utils/auth";
 import { useState } from "react";
+import { Link } from "react-router-dom";
 
 function Login() {
-  const [formState, setFormState] = useState({ email: "", password: "" });
+  const [formState, setFormState] = useState({
+    email: "",
+    password: "",
+  });
   const [login] = useMutation(LOGIN);
 
   const handleFormSubmit = async (e) => {
     e.preventDefault();
-    console.log("Email:", formState.email)
-    console.log("Password:", formState.password)
     try {
       const loginMutation = await login({
         variables: { email: formState.email, password: formState.password },
       });
-      console.log("Data", formState.data)
       const token = loginMutation.data.login.token;
       auth.login(token);
     } catch (error) {
+      alert("Incorrect username or password");
       console.error(error);
     }
   };
@@ -54,7 +56,7 @@ function Login() {
                 onChange={handleChange}
               />
             </div>
-            <div>
+            <div className="py-2">
               <label htmlFor="password" className="sr-only">
                 Password
               </label>
@@ -71,32 +73,6 @@ function Login() {
             </div>
           </div>
 
-          <div className="flex items-center justify-between">
-            <div className="flex items-center">
-              <input
-                id="remember-me"
-                name="remember-me"
-                type="checkbox"
-                className="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded"
-              />
-              <label
-                htmlFor="remember-me"
-                className="ml-2 block text-sm text-gray-900"
-              >
-                Remember me
-              </label>
-            </div>
-
-            <div className="text-sm">
-              <a
-                href="#"
-                className="font-medium text-indigo-600 hover:text-indigo-500"
-              >
-                Forgot your password?
-              </a>
-            </div>
-          </div>
-
           <div>
             <button
               type="submit"
@@ -106,6 +82,9 @@ function Login() {
             </button>
           </div>
         </form>
+        <div className="flex items-center justify-center">
+          <Link to="/signup" style={{color: "blue"}}>Create an account</Link>
+        </div>
       </div>
     </div>
   );
