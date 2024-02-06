@@ -23,6 +23,10 @@ const typeDefs = `
     firstName: String
     lastName: String
     bio: String
+    location: String
+    skills: [String]
+    appliedJobs: [ID]
+    listedJobs: [ID]
     createdAt: String
   }
 
