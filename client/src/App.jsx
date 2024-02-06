@@ -31,7 +31,7 @@ function App() {
   return (
     <ApolloProvider client={client}>
       <Header />
-      <Outlet />
+      <Outlet className="bg-gray-50" />
     </ApolloProvider>
   );
 }
