@@ -10,8 +10,20 @@ export const QUERY_USERS = gql`
     firstName
     lastName
     bio
-    appliedJobs
-    listedJobs
+    appliedJobs {
+      _id
+      title
+      description
+      createdAt
+      location
+    }
+    listedJobs {
+      _id
+      title
+      description
+      createdAt
+      location
+    }
     location
     skills
     }

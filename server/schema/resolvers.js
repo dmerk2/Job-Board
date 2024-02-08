@@ -13,7 +13,12 @@ const resolvers = {
     },
     users: async (_, { role }) => {
       if (role) {
-        const users = await User.find({ role });
+        let users;
+        if (role === 'employer') {
+          users = await User.find({ role }).populate('listedJobs');
+        } else if (role === 'employee') {
+          users = await User.find({ role }).populate('appliedJobs');
+        }
         return users;
       }
       return await User.find();
