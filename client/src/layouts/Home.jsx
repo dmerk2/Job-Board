@@ -68,7 +68,7 @@ function Home() {
 
         <div className="flex items-center flex-wrap mb-20">
           <div className="w-full md:w-1/2">
-            <img src= { Resume } alt="Portfolio Building" className="pr-8 w-80"/>
+            <img src={Resume} alt="Portfolio Building" className="pr-8 w-80" />
           </div>
           <div className="w-full md:w-1/2">
             <h4 className="text-3xl text-gray-800 font-bold mb-3">
@@ -82,7 +82,7 @@ function Home() {
               a meticulously curated list of your unparalleled skills. Impress
               potential employers with a glimpse into your unique personality
               and expertise, all beautifully showcased in one mesmerizing
-              digital space. It's not just a profile page—it's your spotlight on
+              digital space. It is not just a profile page, it is your spotlight on
               the grand stage of career opportunities.
             </p>
           </div>
@@ -121,6 +121,20 @@ function Home() {
                     </span>
                   ))}
                 </div>
+                <div className="px-6 pb-2">
+                  <div className="font-bold text-lg">Other Listings</div>
+                  <div>
+                    {employer.listedJobs.map((job, index) => (
+                      <a
+                        className="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2"
+                        key={index}
+                        href={`/employees/${employer._id}/${job._id}`}
+                      >
+                        {job.title}
+                      </a>
+                    ))}
+                  </div>
+                </div>
               </div>
             ))}
           </div>
@@ -128,7 +142,7 @@ function Home() {
             <p className="text-center mt-4">
               <Link to="/login" className="text-blue-500 underline">
                 Log in
-              </Link>{" "}
+              </Link>
               to view more details and apply for jobs.
             </p>
           )}
