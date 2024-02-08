@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 function SearchBar() {
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [title, setTitle] = useState("");
-  const [getJobs, { loading, data }] = useLazyQuery(QUERY_JOBS);
+  const [getJobs] = useLazyQuery(QUERY_JOBS);
   const navigate = useNavigate();
   const toggleDropdown = () => {
     setDropdownOpen(!dropdownOpen);

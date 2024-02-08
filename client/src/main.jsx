@@ -9,6 +9,7 @@ import Profile from "./layouts/Profile.jsx";
 import JobListing from "./layouts/JobListing.jsx";
 import JobBoard from "./layouts/JobBoard.jsx";
 import UserBoard from "./layouts/UserBoard.jsx";
+import SearchedJobs from "./layouts/SearchedJobs.jsx";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
 const router = createBrowserRouter([
@@ -48,7 +49,11 @@ const router = createBrowserRouter([
       {
         path: "/employers/home",
         element: <UserBoard />,
-      }
+      },
+      {
+        path: "/employees/:jobId",
+        element: <SearchedJobs />,
+      },
     ],
   },
 ]);
