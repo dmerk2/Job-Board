@@ -25,8 +25,8 @@ const typeDefs = `
     bio: String
     location: String
     skills: [String]
-    appliedJobs: [ID]
-    listedJobs: [ID]
+    appliedJobs: [Job]
+    listedJobs: [Job]
     createdAt: String
   }
 
