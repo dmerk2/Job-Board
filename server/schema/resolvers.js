@@ -14,14 +14,18 @@ const resolvers = {
     users: async (_, { role }) => {
       if (role) {
         let users;
-        if (role === 'employer') {
-          users = await User.find({ role }).populate('listedJobs');
-        } else if (role === 'employee') {
-          users = await User.find({ role }).populate('appliedJobs');
+        if (role === "employer") {
+          users = await User.find({ role }).populate("listedJobs");
+        } else if (role === "employee") {
+          users = await User.find({ role }).populate("appliedJobs");
         }
         return users;
       }
       return await User.find();
+    },
+    jobListings: async (_, { title }) => {
+      const jobTitle = Job.find({ title });
+      return await jobTitle;
     },
   },
   Mutation: {
