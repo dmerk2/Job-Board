@@ -19,8 +19,6 @@ function JobBoard() {
   if (loading) return <div>Loading...</div>;
 
   const employers = data?.users || [];
-
-  console.log("Employers:", employers);
   return (
     <>
       <h1 className="text-3xl text-center font-bold mb-4">Employers</h1>
@@ -47,6 +45,20 @@ function JobBoard() {
                   #{skill}
                 </span>
               ))}
+            </div>
+            <div className="px-6 pb-2">
+              <div className="font-bold text-lg">Other Listings</div>
+              <div>
+                {employer.listedJobs.map((job, index) => (
+                  <a
+                    className="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2"
+                    key={index}
+                    href={`/employees/${employer._id}/${job._id}`}
+                  >
+                    {job.title}
+                  </a>
+                ))}
+              </div>
             </div>
           </div>
         ))}

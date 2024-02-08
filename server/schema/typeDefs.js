@@ -38,6 +38,7 @@ const typeDefs = `
   type Query {
     user: User
     users(role: String!): [User!]!
+    jobListings(title: String!): [Job!]!
   }
 
   type Mutation {
