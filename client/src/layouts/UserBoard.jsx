@@ -1,18 +1,9 @@
 import { useQuery } from "@apollo/client";
 import { QUERY_USERS } from "../utils/queries";
-import auth from "../utils/auth";
-// import { getUserRole } from "../utils/helpers";
+import { getUserRole } from "../utils/helpers";
 
 function UserBoard() {
-  // const userRole = getUserRole()
-  // console.log("User role:", userRole)
-  const loggedIn = auth.loggedIn();
-  let role = null;
-
-  // If user is logged in, set the role to "employee"
-  if (loggedIn) {
-    role = "employee";
-  }
+  const role = getUserRole()
 
   const { loading, data } = useQuery(QUERY_USERS, {
     variables: {
