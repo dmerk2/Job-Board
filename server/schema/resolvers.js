@@ -27,12 +27,26 @@ const resolvers = {
       const jobTitle = Job.find({ title });
       return await jobTitle;
     },
+    jobListing: async (_, { _id }) => {
+      const jobTitle = Job.findById(_id);
+      return await jobTitle;
+    },
   },
   Mutation: {
     addUser: async (parent, args) => {
       const user = await User.create(args);
       const token = signToken(user);
       return { user, token };
+    },
+    addJob: async (parent, args, context) => {
+      if (context.user) {
+        const job = await Job.create({ ...args, employerId: context.user._id });
+        await User.findByIdAndUpdate(context.user._id, {
+          $push: { listedJobs: job._id },
+        });
+        return job;
+      }
+      throw AuthenticationError;
     },
     login: async (parent, { email, password }) => {
       const user = await User.findOne({ email });

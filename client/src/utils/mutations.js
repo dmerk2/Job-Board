@@ -31,3 +31,16 @@ export const SIGNUP = gql`
     }
   }
 `;
+
+export const ADD_JOB = gql`
+  mutation AddJob($title: String!, $description: String!, $location: String!) {
+    addJob(title: $title, description: $description, location: $location) {
+      _id
+      title
+      description
+      location
+      createdAt
+      skills
+    }
+  }
+`;
