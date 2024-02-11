@@ -10,6 +10,7 @@ import JobListing from "./layouts/JobListing.jsx";
 import JobBoard from "./layouts/JobBoard.jsx";
 import UserBoard from "./layouts/UserBoard.jsx";
 import SearchedJobs from "./layouts/SearchedJobs.jsx";
+import PostJob from "./layouts/PostJob.jsx";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
 const router = createBrowserRouter([
@@ -39,7 +40,7 @@ const router = createBrowserRouter([
         element: <Profile />,
       },
       {
-        path: "/employees/:employerId/:jobId",
+        path: "/employees/:employerId/:id",
         element: <JobListing />,
       },
       {
@@ -49,6 +50,10 @@ const router = createBrowserRouter([
       {
         path: "/employers/home",
         element: <UserBoard />,
+      },
+      {
+        path: "/employers/job-form",
+        element: <PostJob />,
       },
       {
         path: "/employees/:jobId",
