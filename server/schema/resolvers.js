@@ -23,6 +23,10 @@ const resolvers = {
       }
       return await User.find();
     },
+    allJobs: async () => {
+      const jobs = await Job.find();
+      return jobs;
+    },
     jobListings: async (_, { title }) => {
       const jobTitle = Job.find({ title });
       return await jobTitle;
@@ -45,6 +49,19 @@ const resolvers = {
           $push: { listedJobs: job._id },
         });
         return job;
+      }
+      throw AuthenticationError;
+    },
+    applyJob: async (parent, { jobId }, context) => {
+      if (context.user) {
+        const application = await Application.create({
+          jobId,
+          applicantId: context.user._id,
+        });
+        await User.findByIdAndUpdate(context.user._id, {
+          $push: { appliedJobs: jobId },
+        });
+        return application;
       }
       throw AuthenticationError;
     },

@@ -44,3 +44,17 @@ export const ADD_JOB = gql`
     }
   }
 `;
+
+export const APPLY_JOB = gql`
+  mutation ApplyJob($jobId: ID!) {
+    applyJob(jobId: $jobId) {
+      _id
+      jobId {
+        _id
+      }
+      applicantId {
+        _id
+      }
+    }
+  }
+`;

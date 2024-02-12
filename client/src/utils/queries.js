@@ -39,6 +39,22 @@ export const QUERY_JOBS = gql`
   }
 `;
 
+export const QUERY_ALL_JOBS = gql`
+  query {
+    allJobs {
+      _id
+      title
+      description
+      createdAt
+      location
+      skills
+      employerId {
+        _id
+      }
+    }
+  }
+`;
+
 export const QUERY_JOB = gql`
   query getJob($id: ID!) {
     jobListing(_id: $id) {
