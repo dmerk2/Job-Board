@@ -50,6 +50,7 @@ export const QUERY_ALL_JOBS = gql`
       skills
       employerId {
         _id
+        username
       }
     }
   }
@@ -66,6 +67,7 @@ export const QUERY_JOB = gql`
       skills
       employerId {
         _id
+        username
       }
     }
   }

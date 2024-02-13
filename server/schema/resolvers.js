@@ -28,11 +28,11 @@ const resolvers = {
       return jobs;
     },
     jobListings: async (_, { title }) => {
-      const jobTitle = Job.find({ title });
+      const jobTitle = Job.find({ title }).populate("employerId");
       return await jobTitle;
     },
     jobListing: async (_, { _id }) => {
-      const jobTitle = Job.findById(_id);
+      const jobTitle = Job.findById(_id).populate("employerId");
       return await jobTitle;
     },
   },

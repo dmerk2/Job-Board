@@ -231,6 +231,36 @@ db.once("open", async () => {
     { $set: { employerId: user1._id } }
   );
 
+  await Job.updateMany(
+    { title: "Front-End Developer" },
+    { $set: { employerId: user1._id } }
+  );
+
+  await Job.updateMany(
+    { title: "Back-End Developer" },
+    { $set: { employerId: user2._id } }
+  );
+
+  await Job.updateMany(
+    { title: "Full-Stack Developer" },
+    { $set: { employerId: user2._id } }
+  );
+
+  await Job.updateMany(
+    { title: "Senior Software Engineer" },
+    { $set: { employerId: user3._id } }
+  );
+
+  await Job.updateMany(
+    { title: "Full Stack Developer" },
+    { $set: { employerId: user3._id } }
+  );
+
+  await Job.updateMany(
+    { title: "Web Developer" },
+    { $set: { employerId: user3._id } }
+  );
+
   console.log("Updated Jobs");
 
   const userJobMapping = [
