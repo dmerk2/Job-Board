@@ -75,13 +75,13 @@ function Home() {
       <section className="bg-gray-100">
         <h2 className="text-3xl text-center pt-6 font-bold mb-4">Jobs</h2>
         <JobBoard itemsToShow={itemsToShow} />
-      </section>
-      <section className="bg-gray-100 text-center">
-        <Link to="/employees/home">
-          <button className="text-3xl text-center pb-4 font-bold mb-4">
-            View More
-          </button>
-        </Link>
+        <div className="text-center">
+          <Link to="/employees/home">
+            <button className="bg-camelot text-white px-4 py-2 mb-2 rounded-lg py-3">
+              View More
+            </button>
+          </Link>
+        </div>
       </section>
     </>
   );

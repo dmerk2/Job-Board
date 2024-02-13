@@ -7,7 +7,6 @@ import auth from "../utils/auth";
 function JobListing() {
   const loggedIn = auth.loggedIn();
   const userId = auth.getProfile().data._id;
-  console.log("userId", userId);
   const { id } = useParams();
   const { loading, data } = useQuery(QUERY_JOB, { variables: { id: id } });
   const [applyJobMutation] = useMutation(APPLY_JOB);
@@ -30,7 +29,10 @@ function JobListing() {
 
   return (
     <div className="container mx-auto px-6 py-20 w-1/2">
-      <h1 className="font-bold text-xl mb-2">{job.title}</h1>
+      <h2 className="font-bold text-2xl mb-2 text-center">
+        {job.employerId.username}
+      </h2>
+      <h3 className="font-bold text-xl mb-2">{job.title}</h3>
       <p className="text-gray-700 mb-4">{job.description}</p>
       <p className="text-gray-700 mb-4">{job.location}</p>
       <div>
