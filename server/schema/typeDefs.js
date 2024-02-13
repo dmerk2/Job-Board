@@ -11,6 +11,7 @@ const typeDefs = `
     description: String
     createdAt: String
     location: String
+    skills: [String]
     employerId: User
   }  
 
@@ -39,11 +40,15 @@ const typeDefs = `
     user: User
     users(role: String!): [User!]!
     jobListings(title: String!): [Job!]!
+    jobListing(_id: ID!): Job
+    allJobs: [Job]
   }
 
   type Mutation {
     login(email: String!, password: String!): Auth
     addUser(username: String!, email: String!, password: String!, role: String!): Auth
+    addJob(title: String!, description: String!, location: String!, skills: [String!]): Job
+    applyJob(jobId: ID!): Application
   }
 `;
 

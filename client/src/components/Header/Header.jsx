@@ -50,6 +50,13 @@ const Header = () => {
                 </Link>
                 <p className="hidden md:block"> | </p>
                 <Link
+                  to="/employers/job-form"
+                  className="item pl-2 pr-2 hover:border-b-2 border-camelot"
+                >
+                  Create A Post
+                </Link>
+                <p className="hidden md:block"> | </p>
+                <Link
                   onClick={() => Auth.logout()}
                   className="item pl-2 hover:border-b-2 border-camelot"
                 >

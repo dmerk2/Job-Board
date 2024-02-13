@@ -76,7 +76,7 @@ function Home() {
         <h1 className="text-3xl text-center font-bold mb-4">Employers</h1>
         <Listings />
         {!loggedIn && (
-          <p className="text-center mt-4">
+          <p className="text-center">
             <Link to="/login" className="text-blue-500 underline">
               Log in
             </Link>

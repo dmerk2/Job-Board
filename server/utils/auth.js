@@ -36,8 +36,9 @@ module.exports = {
     const payload = { role, email, _id };
 
     try {
-      const token = jwt.sign({ data: payload }, secret, { expiresIn: expiration });
-      console.log("Token:", token);
+      const token = jwt.sign({ data: payload }, secret, {
+        expiresIn: expiration,
+      });
       return token;
     } catch (error) {
       console.error("Error generating token:", error);
