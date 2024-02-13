@@ -1,18 +1,20 @@
 import { useQuery } from "@apollo/client";
 import { QUERY_ALL_JOBS } from "../utils/queries";
+import { Link } from "react-router-dom";
 
-function JobBoard() {
+function JobBoard({ itemsToShow }) {
   const { loading, data } = useQuery(QUERY_ALL_JOBS);
 
   if (loading) return <div>Loading...</div>;
 
   const jobs = data?.allJobs || [];
+  console.log(jobs);
 
   return (
     <section>
       <div className="container mx-auto px-6 py-20">
         <div className="flex justify-center">
-          {jobs.map((job) => (
+          {jobs.slice(0, itemsToShow).map((job) => (
             <div
               key={job._id}
               className="max-w-sm rounded overflow-hidden shadow-lg bg-white border border-gray-200 mx-4 mb-8"
@@ -32,14 +34,13 @@ function JobBoard() {
                   </span>
                 ))}
               </div>
-              <div className="px-6 pb-2">
-                <a
-                  className="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2"
-                  href={`/jobs/${job._id}`}
-                >
-                  View Details
-                </a>
-              </div>
+              {/* <div className="px-6 pb-2">
+                <Link to={`/employers/${job.employer._id}/${job._id}`}>
+                  <button className="bg-camelot text-white px-4 py-2 rounded-md">
+                    View Details
+                  </button>
+                </Link>
+              </div> */}
             </div>
           ))}
         </div>

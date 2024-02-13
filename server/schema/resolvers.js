@@ -24,7 +24,7 @@ const resolvers = {
       return await User.find();
     },
     allJobs: async () => {
-      const jobs = await Job.find();
+      const jobs = await Job.find().populate("employerId");
       return jobs;
     },
     jobListings: async (_, { title }) => {

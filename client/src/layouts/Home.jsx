@@ -1,12 +1,12 @@
-import { Link } from "react-router-dom";
-import Listings from "../components/Listings/Listings";
-import auth from "../utils/auth";
+import JobBoard from "../layouts/JobBoard";
 import SearchBar from "../components/Searchbar/Searchbar";
 import Job_Search from "../assets/Hop_On_Board_Job_Search.png";
 import Resume from "../assets/Hop_On_Board_Resume.png";
+import { Link } from "react-router-dom";
 
 function Home() {
-  const loggedIn = auth.loggedIn();
+  const itemsToShow = 4;
+
   return (
     <>
       <div className="py-20">
@@ -73,16 +73,15 @@ function Home() {
       </section>
 
       <section className="bg-gray-100">
-        <h1 className="text-3xl text-center font-bold mb-4">Employers</h1>
-        <Listings />
-        {!loggedIn && (
-          <p className="text-center">
-            <Link to="/login" className="text-blue-500 underline">
-              Log in
-            </Link>
-            to view more details and apply for jobs.
-          </p>
-        )}
+        <h2 className="text-3xl text-center pt-6 font-bold mb-4">Jobs</h2>
+        <JobBoard itemsToShow={itemsToShow} />
+      </section>
+      <section className="bg-gray-100 text-center">
+        <Link to="/employees/home">
+          <button className="text-3xl text-center pb-4 font-bold mb-4">
+            View More
+          </button>
+        </Link>
       </section>
     </>
   );
