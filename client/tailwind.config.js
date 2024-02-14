@@ -17,6 +17,10 @@ export default {
         'blue_marguerite': '#8470c0',
         'meteorite': '#3a1d7b',
         'camelot': '#912b63',
+      },
+      screens: {
+        'xs': '475px',
+        '2xs': '375px',
       }
     },
     
