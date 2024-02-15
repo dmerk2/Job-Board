@@ -22,12 +22,12 @@ const Header = () => {
         </Link>
       </div>
       <div className="flex justify-center order-2 md:order-2">
-      <img
-            src={BrandName}
-            alt="Hop On Board Name"
-            className="item text-3xl"
-            width="350"
-          ></img>
+        <img
+          src={BrandName}
+          alt="Hop On Board Name"
+          className="item text-3xl"
+          width="350"
+        ></img>
       </div>
       <nav className="right menu flex justify-end order-3 md:order-3 text-camelot text-2xl">
         <button onClick={() => setIsOpen(!isOpen)} className="md:hidden">
@@ -102,7 +102,10 @@ const Header = () => {
                 Jobs
               </Link>
               <p className="hidden md:block"> | </p>
-              <Link to="/login" className="item pl-2 hover:border-b-2 border-camelot">
+              <Link
+                to="/login"
+                className="item pl-2 hover:border-b-2 border-camelot"
+              >
                 Log In
               </Link>
             </>
