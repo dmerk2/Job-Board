@@ -5,9 +5,11 @@ import { getUserRole } from "../utils/helpers";
 function UserBoard() {
   const role = getUserRole()
 
+  const queryRole = role === 'employer' ? 'employee' : role;
+
   const { loading, data } = useQuery(QUERY_USERS, {
     variables: {
-      role: role,
+      role: queryRole,
     },
   });
 
