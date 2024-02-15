@@ -10,6 +10,7 @@ function JobListing() {
   const { id } = useParams();
   const { loading, data } = useQuery(QUERY_JOB, { variables: { id: id } });
   const [applyJobMutation] = useMutation(APPLY_JOB);
+  const jobTitle = data?.jobListing.title;
 
   const job = data?.jobListing || [];
   if (loading) {
@@ -18,10 +19,10 @@ function JobListing() {
 
   const applyJob = async () => {
     try {
-      const { data } = await applyJobMutation({
+      await applyJobMutation({
         variables: { jobId: userId },
       });
-      console.log("Successfully applied", data);
+      alert(`Thank you for applying to ${jobTitle}!`);
     } catch (err) {
       console.error(err);
     }
