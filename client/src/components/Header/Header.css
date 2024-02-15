@@ -6,35 +6,3 @@ header {
     border-bottom: 5px solid var(--blue_marguerite);
     background-color: var(--athens_gray);
 }
-
-.siteName {
-    font-size: 2.5rem;
-    font-weight: bold;
-    color: var(--meteorite);
-}
-
-.navLinks {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.dividers {
-    margin: 0 1rem;
-    font-size: 2rem;
-    font-weight: bold;
-    color: var(--camelot);
-}
-
-.siteLink {
-    margin: 0 1rem;
-    font-size: 1.5rem;
-    font-weight: bold;
-    color: var(--camelot);
-    text-decoration: none;
-    transition: all 0.3s ease;
-}
-
-.siteLink:hover {
-    border-bottom: 2px solid var(--camelot);
-}
