@@ -16,7 +16,6 @@ function UserBoard() {
   if (loading) return <div>Loading...</div>;
 
   const employees = data?.users || [];
-  console.log(role)
 
   return (
     <>

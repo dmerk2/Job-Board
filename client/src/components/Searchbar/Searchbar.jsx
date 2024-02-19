@@ -2,18 +2,20 @@ import { useState } from "react";
 import { useLazyQuery } from "@apollo/client";
 import { QUERY_JOBS } from "../../utils/queries";
 import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { setTitle as setJobTitle } from "../../utils/jobSlice";
 
 function SearchBar() {
+  const dispatch = useDispatch();
   const [title, setTitle] = useState("");
   const [getJobs] = useLazyQuery(QUERY_JOBS);
   const navigate = useNavigate();
-
 
   const handleSubmit = (e) => {
     e.preventDefault();
     getJobs({ variables: { title } });
     navigate(`/employees/${title}`);
-    console.log(title)
+    dispatch(setJobTitle(title));
   };
 
   const handleInputChange = (e) => {
@@ -30,8 +32,8 @@ function SearchBar() {
             className="block p-2.5 w-full z-20 rounded-l-lg text-sm text-gray-900 rounded-e-lg 0 border-gray border-s-2 border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-s-gray-700  dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:border-blue-500"
             placeholder="What kind of job would you like?"
             required
-            value={title} // Bind the input value to the title state
-            onChange={handleInputChange} // Call handleInputChange on input change
+            value={title}
+            onChange={handleInputChange}
           />
           <button
             type="submit"
