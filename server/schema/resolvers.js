@@ -5,7 +5,9 @@ const resolvers = {
   Query: {
     user: async (parent, args, context) => {
       if (context.user) {
-        const user = await User.findById(context.user._id).populate("appliedJobs");
+        const user = await User.findById(context.user._id).populate(
+          "appliedJobs"
+        );
         return user;
       }
 
@@ -28,7 +30,7 @@ const resolvers = {
       return jobs;
     },
     jobListings: async (_, { title }) => {
-      const jobTitle = Job.find({ title }).populate("employerId");
+      const jobTitle = Job.find({ title: { $regex: title, $options: 'i' } }).populate("employerId");
       return await jobTitle;
     },
     jobListing: async (_, { _id }) => {
@@ -98,6 +100,17 @@ const resolvers = {
       }
       const token = signToken(user);
       return { user, token };
+    },
+    updateUser: async (parent, args, context) => {
+      if (context.user) {
+        const updatedUser = await User.findByIdAndUpdate(
+          context.user._id,
+          args,
+          { new: true }
+        );
+        return updatedUser;
+      }
+      throw AuthenticationError;
     },
   },
 };
