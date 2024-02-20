@@ -7,7 +7,6 @@ const jobSlice = createSlice({
   },
   reducers: {
     setTitle: (state, action) => {
-      console.log("action.payload", action.payload);
       state.title = action.payload;
     },
   },

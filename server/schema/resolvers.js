@@ -30,7 +30,9 @@ const resolvers = {
       return jobs;
     },
     jobListings: async (_, { title }) => {
-      const jobTitle = Job.find({ title: { $regex: title, $options: 'i' } }).populate("employerId");
+      const jobTitle = Job.find({
+        title: { $regex: title, $options: "i" },
+      }).populate("employerId");
       return await jobTitle;
     },
     jobListing: async (_, { _id }) => {
@@ -66,8 +68,7 @@ const resolvers = {
           alert("You have already applied for this job.");
         }
 
-        // If the user hasn't applied before, update the existing document
-        // in the Application collection by pushing the user's _id to the applicantId array.
+        // If the user hasn't applied before, update the existing document in the Application collection by pushing the user's _id to the applicantId array.
         await Application.updateOne(
           { jobId },
           { $push: { applicantId: context.user._id } }

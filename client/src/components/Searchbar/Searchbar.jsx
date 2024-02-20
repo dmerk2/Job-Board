@@ -13,8 +13,9 @@ function SearchBar() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    const titleWithHyphens = title.split(" ").join("-").toLowerCase();
     getJobs({ variables: { title } });
-    navigate(`/employees/${title}`);
+    navigate(`/employees/${titleWithHyphens}`);
     dispatch(setJobTitle(title));
   };
 
