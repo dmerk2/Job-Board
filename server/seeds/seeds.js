@@ -10,7 +10,7 @@ db.once("open", async () => {
 
   const jobs = await Job.insertMany([
     {
-      title: "Front-End Developer",
+      title: "Front End Developer",
       description:
         "We need a Front-End Developer to join our team and help us build the next generation of web applications. You will work with the UI/UX designer and bridge the gap between graphical design and technical implementation, taking an active role on both sides and defining how the application looks as well as how it works.",
       salary: 100000,
@@ -19,7 +19,7 @@ db.once("open", async () => {
       createdAt: new Date(),
     },
     {
-      title: "Back-End Developer",
+      title: "Back End Developer",
       description:
         "Hoping to hire a Back-End Developer who is responsible for server-side web application logic and integration of the work front-end developers do. Back-end developers usually write web services and APIs used by front-end developers and mobile application developers.",
       salary: 125000,
@@ -28,7 +28,7 @@ db.once("open", async () => {
       createdAt: new Date(),
     },
     {
-      title: "Full-Stack Developer",
+      title: "Full Stack Developer",
       description:
         "URGENT HIRING! We are looking for a Full-Stack Developer to produce scalable software solutions. You’ll be part of a cross-functional team that’s responsible for the full software development life cycle, from conception to deployment.",
       salary: 150000,
@@ -232,17 +232,17 @@ db.once("open", async () => {
   );
 
   await Job.updateMany(
-    { title: "Front-End Developer" },
+    { title: "Front End Developer" },
     { $set: { employerId: user1._id } }
   );
 
   await Job.updateMany(
-    { title: "Back-End Developer" },
+    { title: "Back End Developer" },
     { $set: { employerId: user2._id } }
   );
 
   await Job.updateMany(
-    { title: "Full-Stack Developer" },
+    { title: "Full Stack Developer" },
     { $set: { employerId: user2._id } }
   );
 
