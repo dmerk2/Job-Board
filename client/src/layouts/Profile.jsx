@@ -1,8 +1,10 @@
-import { useState } from "react";
-import { useQuery } from "@apollo/client";
+import { useState, useEffect } from "react";
+import { useQuery, useMutation } from "@apollo/client";
 import { QUERY_USER } from "../utils/queries";
+import { UPDATE_USER } from "../utils/mutations";
 
 function Profile() {
+  const [updateUser] = useMutation(UPDATE_USER);
   const { loading, data } = useQuery(QUERY_USER);
   const [formData, setFormData] = useState({
     username: "",
@@ -13,27 +15,67 @@ function Profile() {
     location: "",
     skills: [],
   });
+  const [modifiedFields, setModifiedFields] = useState({});
 
-
-  if (loading) return <div>Loading...</div>;
-  const user = data?.user || {};
-  console.log("User data: ", user);
+  useEffect(() => {
+    if (!loading && data) {
+      const user = data.user;
+      setFormData({
+        username: user.username,
+        email: user.email,
+        firstName: user.firstName,
+        lastName: user.lastName,
+        bio: user.bio,
+        location: user.location,
+        skills: user.skills,
+      });
+    }
+  }, [loading, data]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
+    setFormData((prevFormData) => ({
+      ...prevFormData,
+      [name]: value,
+    }));
+    setModifiedFields((prevModifiedFields) => ({
+      ...prevModifiedFields,
+      [name]: true,
+    }));
   };
 
   const handleSkillsChange = (e) => {
     const skills = e.target.value.split(",").map((skill) => skill.trim());
-    setFormData({ ...formData, skills });
+    setFormData((prevFormData) => ({
+      ...prevFormData,
+      skills,
+    }));
+    setModifiedFields((prevModifiedFields) => ({
+      ...prevModifiedFields,
+      skills: true,
+    }));
   };
 
-  const handleFormSubmit = (e) => {
+  const handleFormSubmit = async (e) => {
     e.preventDefault();
-    console.log("formData:", formData);
-    // You can add logic here to send the updated data to the server
+    try {
+      const updatedFields = {};
+      // Check each field to see if it's been modified
+      for (const key in modifiedFields) {
+        if (modifiedFields[key]) {
+          updatedFields[key] = formData[key];
+        }
+      }
+      await updateUser({
+        variables: updatedFields,
+      });
+      alert("Profile updated successfully!");
+    } catch (error) {
+      console.error(error);
+    }
   };
+
+  if (loading) return <div>Loading...</div>;
 
   return (
     <div className="min-h-screen justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
@@ -49,70 +91,72 @@ function Profile() {
             <input
               type="text"
               name="username"
-              value={formData.username || user.username}
+              value={formData.username}
               className="appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-camelot focus:border-camelot focus:z-10 sm:text-sm"
               onChange={handleChange}
             />
           </label>
           <br />
-          <label>
+          <label className="flex">
             <div className="text-2xl mr-2">Email:</div>
             <input
               type="email"
               name="email"
-              value={formData.email || user.email}
+              value={formData.email}
               className="appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-camelot focus:border-camelot focus:z-10 sm:text-sm"
               onChange={handleChange}
             />
           </label>
           <br />
-          <label>
-            <div className="text-2xl mr-2">Name:</div>
-            <div className="flex">
+          <label className="flex">
+            <div className="text-2xl mr-2">First Name:</div>
             <input
               type="text"
               name="firstName"
-              value={formData.firstName || user.firstName}
+              value={formData.firstName}
               className="appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-camelot focus:border-camelot focus:z-10 sm:text-sm"
               onChange={handleChange}
             />
+          </label>
+          <br />
+          <label className="flex">
+            <div className="text-2xl mr-2">Last Name:</div>
             <input
               type="text"
               name="lastName"
-              value={formData.lastName || user.lastName}
+              value={formData.lastName}
               className="appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-camelot focus:border-camelot focus:z-10 sm:text-sm"
               onChange={handleChange}
             />
-            </div>
           </label>
           <br />
-          <label>
+          <label className="flex">
             <div className="text-2xl mr-2">Bio:</div>
             <textarea
               name="bio"
-              value={formData.bio || user.bio}
+              value={formData.bio}
               className="appearance-none relative block h-1/4 w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-camelot focus:border-camelot focus:z-10 sm:text-sm"
               onChange={handleChange}
             />
           </label>
           <br />
-          <label>
+          <label className="flex">
             <div className="text-2xl mr-2">Skills:</div>
             <input
               type="text"
               name="skills"
-              value={formData.skills.join(", ") || user.skills.join(", ")}
+              value={formData.skills.join(", ")}
               className="appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-camelot focus:border-camelot focus:z-10 sm:text-sm"
               onChange={handleSkillsChange}
             />
           </label>
           <br />
-          <label>
+          <label className="flex">
             <div className="text-2xl mr-2">Location:</div>
             <input
               type="text"
               name="location"
-              value={formData.location || user.location}
+              value={formData.location}
               className="appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-camelot focus:border-camelot focus:z-10 sm:text-sm"
               onChange={handleChange}
             />

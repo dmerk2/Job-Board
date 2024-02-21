@@ -65,6 +65,13 @@ export const QUERY_JOBS = gql`
     jobListings(title: $title) {
       _id
       title
+      createdAt
+      location
+      description
+      employerId {
+        _id
+        username
+      }
     }
   }
 `;

@@ -58,3 +58,36 @@ export const APPLY_JOB = gql`
     }
   }
 `;
+
+export const UPDATE_USER = gql`
+  mutation UpdateUser(
+    $username: String
+    $email: String
+    $firstName: String
+    $lastName: String
+    $password: String
+    $bio: String
+    $location: String
+    $skills: [String]
+  ) {
+    updateUser(
+      username: $username
+      email: $email
+      firstName: $firstName
+      lastName: $lastName
+      password: $password
+      bio: $bio
+      location: $location
+      skills: $skills
+    ) {
+      _id
+      username
+      email
+      firstName
+      lastName
+      bio
+      location
+      skills
+    }
+  }
+`;

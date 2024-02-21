@@ -2,7 +2,7 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import App from "./App.jsx";
 import Error from "./layouts/Error.jsx";
-import Home from "./layouts/Home.jsx"
+import Home from "./layouts/Home.jsx";
 import Login from "./layouts/Login.jsx";
 import Signup from "./layouts/Signup.jsx";
 import Profile from "./layouts/Profile.jsx";
@@ -12,6 +12,8 @@ import UserBoard from "./layouts/UserBoard.jsx";
 import SearchedJobs from "./layouts/SearchedJobs.jsx";
 import PostJob from "./layouts/PostJob.jsx";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { Provider } from "react-redux";
+import store from "./utils/store.js";
 
 const router = createBrowserRouter([
   {
@@ -65,6 +67,8 @@ const router = createBrowserRouter([
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
-    <RouterProvider router={router} />
+    <Provider store={store}>
+      <RouterProvider router={router} />
+    </Provider>
   </React.StrictMode>
 );
