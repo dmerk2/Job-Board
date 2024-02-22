@@ -94,7 +94,7 @@ function Profile() {
   if (loading) return <div>Loading...</div>;
 
   return (
-    <div className="min-h-screen justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen justify-center py-12 px-4 sm:px-6 lg:px-8">
       <div className="flex">
         <h2 className="mt-6 text-center mx-auto text-3xl font-bold text-gray-900">
           Profile

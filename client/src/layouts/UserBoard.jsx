@@ -18,7 +18,7 @@ function UserBoard() {
   const employees = data?.users || [];
 
   return (
-    <>
+    <section className="justify-center py-12 px-4 sm:px-6 lg:px-8">
       <h1 className="text-3xl text-center font-bold mb-4">Employees</h1>
       <div className="flex justify-center">
         {employees.map((employee) => (
@@ -47,7 +47,7 @@ function UserBoard() {
           </div>
         ))}
       </div>
-    </>
+    </section>
   );
 }
 
