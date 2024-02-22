@@ -1,9 +1,12 @@
 import { useState } from "react";
 import { useMutation } from "@apollo/client";
 import { ADD_JOB } from "../utils/mutations";
+import { QUERY_JOBS } from "../utils/queries";
 
 function PostJob() {
-  const [addJob] = useMutation(ADD_JOB);
+  const [addJob] = useMutation(ADD_JOB, {
+    refetchQueries: [{ query: QUERY_JOBS }],
+  });
   const [formState, setFormState] = useState({
     title: "",
     description: "",
@@ -15,6 +18,8 @@ function PostJob() {
 
   const handleFormSubmit = async (e) => {
     e.preventDefault();
+    // Replace hyphens with spaces to save in database
+    const titleWithSpaces = formState.title.replace(/-/g, " ");
     if (formState.skills.length === 0) {
       alert("Skills must be entered.");
       return;
@@ -22,7 +27,7 @@ function PostJob() {
     try {
       await addJob({
         variables: {
-          title: formState.title,
+          title: titleWithSpaces,
           description: formState.description,
           location: formState.location,
           skills: formState.skills,
@@ -59,7 +64,7 @@ function PostJob() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
+    <div className="flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-md w-full space-y-8">
         <div>
           <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
