@@ -14,6 +14,7 @@ function Profile() {
     bio: "",
     location: "",
     skills: [],
+    newSkill: "", // State to hold the value of the new skill input
   });
   const [modifiedFields, setModifiedFields] = useState({});
 
@@ -28,6 +29,7 @@ function Profile() {
         bio: user.bio,
         location: user.location,
         skills: user.skills,
+        newSkill: "", // Initialize newSkill as an empty string
       });
     }
   }, [loading, data]);
@@ -44,11 +46,25 @@ function Profile() {
     }));
   };
 
-  const handleSkillsChange = (e) => {
-    const skills = e.target.value.split(",").map((skill) => skill.trim());
+  const handleAddSkill = () => {
+    const newSkill = formData.newSkill.trim();
+    if (newSkill) {
+      setFormData((prevFormData) => ({
+        ...prevFormData,
+        skills: [...prevFormData.skills, newSkill],
+        newSkill: "", // Reset newSkill input
+      }));
+      setModifiedFields((prevModifiedFields) => ({
+        ...prevModifiedFields,
+        skills: true,
+      }));
+    }
+  };
+
+  const handleRemoveSkill = (index) => {
     setFormData((prevFormData) => ({
       ...prevFormData,
-      skills,
+      skills: prevFormData.skills.filter((_, i) => i !== index),
     }));
     setModifiedFields((prevModifiedFields) => ({
       ...prevModifiedFields,
@@ -86,81 +102,119 @@ function Profile() {
       </div>
       <div className="flex justify-center my-auto mx-auto">
         <form onSubmit={handleFormSubmit} className="mt-6 w-1/2">
-          <label className="flex">
-            <div className="text-2xl mr-2">Username:</div>
-            <input
-              type="text"
-              name="username"
-              value={formData.username}
-              className="appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-camelot focus:border-camelot focus:z-10 sm:text-sm"
-              onChange={handleChange}
-            />
+          <label htmlFor="username" className="text-2xl mr-2">
+            Username:
           </label>
+          <input
+            id="username"
+            type="text"
+            name="username"
+            value={formData.username}
+            className="appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-camelot focus:border-camelot focus:z-10 sm:text-sm"
+            onChange={handleChange}
+          />
           <br />
-          <label className="flex">
-            <div className="text-2xl mr-2">Email:</div>
-            <input
-              type="email"
-              name="email"
-              value={formData.email}
-              className="appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-camelot focus:border-camelot focus:z-10 sm:text-sm"
-              onChange={handleChange}
-            />
+          <label htmlFor="email" className="text-2xl mr-2">
+            Email:
           </label>
+          <input
+            id="email"
+            type="email"
+            name="email"
+            value={formData.email}
+            className="appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-camelot focus:border-camelot focus:z-10 sm:text-sm"
+            onChange={handleChange}
+          />
           <br />
-          <label className="flex">
-            <div className="text-2xl mr-2">First Name:</div>
-            <input
-              type="text"
-              name="firstName"
-              value={formData.firstName}
-              className="appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-camelot focus:border-camelot focus:z-10 sm:text-sm"
-              onChange={handleChange}
-            />
+          <label htmlFor="firstName" className="text-2xl mr-2">
+            First Name:
           </label>
+          <input
+            id="firstName"
+            type="text"
+            name="firstName"
+            value={formData.firstName}
+            className="appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-camelot focus:border-camelot focus:z-10 sm:text-sm"
+            onChange={handleChange}
+          />
           <br />
-          <label className="flex">
-            <div className="text-2xl mr-2">Last Name:</div>
-            <input
-              type="text"
-              name="lastName"
-              value={formData.lastName}
-              className="appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-camelot focus:border-camelot focus:z-10 sm:text-sm"
-              onChange={handleChange}
-            />
+          <label htmlFor="lastName" className="text-2xl mr-2">
+            Last Name:
           </label>
+          <input
+            id="lastName"
+            type="text"
+            name="lastName"
+            value={formData.lastName}
+            className="appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-camelot focus:border-camelot focus:z-10 sm:text-sm"
+            onChange={handleChange}
+          />
           <br />
-          <label className="flex">
-            <div className="text-2xl mr-2">Bio:</div>
-            <textarea
-              name="bio"
-              value={formData.bio}
-              className="appearance-none relative block h-1/4 w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-camelot focus:border-camelot focus:z-10 sm:text-sm"
-              onChange={handleChange}
-            />
+          <label htmlFor="bio" className="text-2xl mr-2">
+            Bio:
           </label>
+          <textarea
+            id="bio"
+            name="bio"
+            value={formData.bio}
+            className="appearance-none relative block h-1/4 w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-camelot focus:border-camelot focus:z-10 sm:text-sm"
+            onChange={handleChange}
+          />
           <br />
-          <label className="flex">
-            <div className="text-2xl mr-2">Skills:</div>
-            <input
-              type="text"
-              name="skills"
-              value={formData.skills.join(", ")}
-              className="appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-camelot focus:border-camelot focus:z-10 sm:text-sm"
-              onChange={handleSkillsChange}
-            />
+          <label htmlFor="location" className="text-2xl mr-2">
+            Location:
           </label>
+          <input
+            id="location"
+            type="text"
+            name="location"
+            value={formData.location}
+            className="appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-camelot focus:border-camelot focus:z-10 sm:text-sm"
+            onChange={handleChange}
+          />
           <br />
-          <label className="flex">
-            <div className="text-2xl mr-2">Location:</div>
-            <input
-              type="text"
-              name="location"
-              value={formData.location}
-              className="appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-camelot focus:border-camelot focus:z-10 sm:text-sm"
-              onChange={handleChange}
-            />
+          {/* New skill input */}
+          <label htmlFor="skills" className="text-2xl mr-2">
+            Skills:
           </label>
+          <label htmlFor="newSkill" className="sr-only">
+            Add Skill
+          </label>
+          <input
+            id="newSkill"
+            name="newSkill"
+            type="text"
+            value={formData.newSkill}
+            onChange={handleChange}
+            placeholder="Add a skill"
+            className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+          />
+          <button
+            type="button"
+            onClick={handleAddSkill}
+            className="mt-2 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+          >
+            Add Skill
+          </button>
+          {/* Display entered skills */}
+          <div className="flex flex-wrap mt-2">
+            {formData.skills.map((skill, index) => (
+              <div
+                key={index}
+                className="bg-gray-100 p-2 rounded-md mr-2 mb-2 flex items-center"
+              >
+                <div className="mr-2">{skill}</div>
+                <button
+                  type="button"
+                  onClick={() => handleRemoveSkill(index)}
+                  className="text-red-600"
+                >
+                  X
+                </button>
+              </div>
+            ))}
+          </div>
+
           <br />
           <button
             type="submit"
