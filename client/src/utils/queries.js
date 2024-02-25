@@ -64,7 +64,7 @@ export const QUERY_USER = gql`
       skills
     }
   }
-`;
+`; 
 
 export const QUERY_JOBS = gql`
   query getJobs($title: String!) {

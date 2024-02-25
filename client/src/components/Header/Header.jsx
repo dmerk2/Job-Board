@@ -75,7 +75,7 @@ const Header = () => {
               </svg>
             </button>
           </div>
-          <div
+          <div 
             className={`${
               isMenuOpen
                 ? "block"

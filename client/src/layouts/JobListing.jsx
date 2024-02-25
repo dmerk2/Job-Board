@@ -30,7 +30,7 @@ function JobListing() {
     }
   };
 
-  return (
+  return ( 
     <div className="container mx-auto px-6 py-20 w-1/2">
       {isModalOpen && (
         <div className="fixed z-10 inset-0 overflow-y-auto">

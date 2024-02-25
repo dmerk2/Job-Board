@@ -5,7 +5,7 @@ import { UPDATE_USER } from "../utils/mutations";
 import { Link } from "react-router-dom";
 import { getUserRole } from "../utils/helpers";
 import SuccessModal from "../components/Modals/SuccessModal";
-import ErrorModal from "../components/Modals/ErrorModal";
+import ErrorModal from "../components/Modals/ErrorModal"; 
 
 function Profile() {
   const role = getUserRole();

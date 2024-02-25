@@ -39,7 +39,7 @@ const resolvers = {
         title: { $regex: title, $options: "i" },
       }).populate("employerId");
       return await jobTitle;
-    },
+    }, 
     jobListing: async (_, { _id }) => {
       const jobTitle = Job.findById(_id).populate("employerId");
       return await jobTitle;
