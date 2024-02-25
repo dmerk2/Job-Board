@@ -57,6 +57,8 @@ const resolvers = {
       throw AuthenticationError;
     },
     applyJob: async (parent, { jobId }, context) => {
+      console.log("context", context.user)
+      console.log("context.user._id", context.user._id)
       if (context.user) {
         // Check if the user has already applied for this job
         const existingApplication = await Application.findOne({
@@ -65,7 +67,7 @@ const resolvers = {
         });
 
         if (existingApplication) {
-          alert("You have already applied for this job.");
+          throw new Error("You have already applied for this job.");
         }
 
         // If the user hasn't applied before, update the existing document in the Application collection by pushing the user's _id to the applicantId array.
@@ -74,20 +76,29 @@ const resolvers = {
           { $push: { applicantId: context.user._id } }
         );
 
-        // Also update the user's appliedJobs array
-        await User.findByIdAndUpdate(context.user._id, {
-          $push: { appliedJobs: jobId },
-        });
+        // Find the user
+        const user = await User.findById(context.user._id);
+
+        if (!user) {
+          throw new Error('User not found');
+        }
+
+        // Update the appliedJobs array
+        user.appliedJobs.push(jobId);
+
+        // Save the user
+        const updatedUser = await user.save();
+
+        console.log("updatedUser", updatedUser);
 
         // Return some indication of success
-        return { success: true };
+        return { success: true, user: updatedUser };
       }
 
       throw new AuthenticationError(
         "You must be logged in to apply for a job."
       );
     },
-
     login: async (parent, { email, password }) => {
       const user = await User.findOne({ email });
       if (!user) {
