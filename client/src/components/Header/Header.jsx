@@ -15,11 +15,7 @@ const Header = () => {
       <nav className="bg-athens_gray border-b-5 border-blue_marguerite px-4 text-2xl lg:px-6 py-2.5">
         <div className="flex flex-wrap justify-between items-center mx-auto max-w-screen-xl">
           <Link to="/" className="flex items-center">
-            <img
-              src={Logo}
-              className="h-9 sm:h-12"
-              alt="Hop on Board Logo"
-            />
+            <img src={Logo} className="h-9 sm:h-12" alt="Hop on Board Logo" />
             <img
               src={BrandName}
               className="h-9 sm:h-12"
@@ -79,7 +75,7 @@ const Header = () => {
               </svg>
             </button>
           </div>
-          <div
+          <div 
             className={`${
               isMenuOpen
                 ? "block"
