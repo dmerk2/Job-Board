@@ -2,10 +2,14 @@ import { useState, useEffect } from "react";
 import { useQuery, useMutation } from "@apollo/client";
 import { QUERY_USER } from "../utils/queries";
 import { UPDATE_USER } from "../utils/mutations";
+import { Link } from "react-router-dom";
 
 function Profile() {
   const [updateUser] = useMutation(UPDATE_USER);
-  const { loading, data } = useQuery(QUERY_USER);
+  const { loading, data, error } = useQuery(QUERY_USER, {
+    fetchPolicy: "network-only",
+  
+  });
   const [formData, setFormData] = useState({
     username: "",
     email: "",
@@ -17,10 +21,12 @@ function Profile() {
     newSkill: "", // State to hold the value of the new skill input
   });
   const [modifiedFields, setModifiedFields] = useState({});
+  const user = data?.user || {};
 
   useEffect(() => {
     if (!loading && data) {
       const user = data.user;
+      console.log("User: ", user);
       setFormData({
         username: user.username,
         email: user.email,
@@ -92,6 +98,7 @@ function Profile() {
   };
 
   if (loading) return <div>Loading...</div>;
+  if (error) return <div>Error: {error.message}</div>;
 
   return (
     <div className="min-h-screen justify-center py-12 px-4 sm:px-6 lg:px-8">
@@ -214,7 +221,26 @@ function Profile() {
               </div>
             ))}
           </div>
-
+          <br />
+          <div className="flex justify-center">
+            {user?.appliedJobs?.map((job) => (
+              <div
+                className="max-w-sm rounded overflow-hidden shadow-lg bg-white border border-gray-200 mx-4 mb-8"
+                key={job._id}
+              >
+                <div className="px-6 py-4">
+                  <div className="font-bold text-xl mb-2 ">{job.title}</div>
+                  <div className="px-6 pb-2 text-center">
+                    <Link to={`/employees/${job.employerId._id}/${job._id}`}>
+                      <button className="bg-camelot text-white px-4 py-2 mb-2 rounded-md">
+                        View Details
+                      </button>
+                    </Link>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
           <br />
           <button
             type="submit"

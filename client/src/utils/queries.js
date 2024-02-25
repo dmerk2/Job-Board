@@ -46,6 +46,9 @@ export const QUERY_USER = gql`
         description
         createdAt
         location
+        employerId {
+          _id
+        }
       }
       listedJobs {
         _id
