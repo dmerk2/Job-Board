@@ -6,7 +6,6 @@ import auth from "../utils/auth";
 
 function JobListing() {
   const loggedIn = auth.loggedIn();
-  const userId = auth.getProfile().data._id;
   const { id } = useParams();
   const { loading, data } = useQuery(QUERY_JOB, { variables: { id: id } });
   const [applyJobMutation] = useMutation(APPLY_JOB);
@@ -20,7 +19,7 @@ function JobListing() {
   const applyJob = async () => {
     try {
       await applyJobMutation({
-        variables: { jobId: userId },
+        variables: { jobId: id },
       });
       alert(`Thank you for applying to ${jobTitle}!`);
     } catch (err) {
@@ -29,7 +28,7 @@ function JobListing() {
   };
 
   return (
-    <div className="container mx-auto px-6 py-20 w-1/2">
+    <div className="container min-h-screen mx-auto px-6 py-20 w-1/2">
       <h2 className="font-bold text-2xl mb-2 text-center">
         {job.employerId.username}
       </h2>
