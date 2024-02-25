@@ -65,14 +65,16 @@ function PostJob() {
 
   return (
     <div className="flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-md w-full space-y-8">
-        <div>
-          <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
+      <div className="w-full space-y-4">
+        <div className="flex">
+          <h2 className="mt-6 px-4 py-2 rounded-full text-center bg-meteorite mx-auto text-3xl font-bold text-white">
             Post a Job
           </h2>
         </div>
-        <form className="mt-8 space-y-6" onSubmit={handleFormSubmit}>
-          <div className="rounded-md shadow-sm -space-y-px">
+        <div className="flex justify-center mx-auto">
+        <form className="mt-8 w-1/2" onSubmit={handleFormSubmit}>
+          <div className="flex">
+            <div className="w-1/2 space-y-4">
             <div>
               <label htmlFor="title" className="sr-only">
                 Job Title
@@ -83,7 +85,7 @@ function PostJob() {
                 type="text"
                 autoComplete="title"
                 required
-                className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+                className="appearance-none rounded-md shadow-sm relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
                 placeholder="Job Title"
                 value={formState.title}
                 onChange={handleChange}
@@ -98,7 +100,7 @@ function PostJob() {
                 name="description"
                 autoComplete="description"
                 required
-                className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+                className="appearance-none rounded-md shadow-sm relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
                 placeholder="Job Description"
                 rows="4"
                 value={formState.description}
@@ -115,13 +117,15 @@ function PostJob() {
                 type="text"
                 autoComplete="location"
                 required
-                className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+                className="appearance-none rounded-md shadow-sm relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
                 placeholder="Job Location"
                 value={formState.location}
                 onChange={handleChange}
               />
             </div>
-            <div>
+            </div>
+            <div className="w-1/2">
+            <div className="flex justify-center mx-auto space-x-4">
               <label htmlFor="skills" className="sr-only">
                 Skills Needed
               </label>
@@ -139,12 +143,12 @@ function PostJob() {
                   }
                 }}
                 placeholder="Add a skill"
-                className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+                className="appearance-none mr-6 rounded-md shadow-sm relative block w-2/5 px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
               />
               <button
                 type="button"
                 onClick={addSkill}
-                className="mt-2 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                className="w-2/5 my-auto py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-blue_marguerite hover:bg-meteorite"
               >
                 Add Skill
               </button>
@@ -152,16 +156,17 @@ function PostJob() {
             {/* Display entered skills */}
             <div>
               {formState.skills.map((skill, index) => (
-                <div key={index} className="bg-gray-100 p-2 rounded-md mt-2">
+                <div key={index} className="flex justify-center mx-auto my-3 bg-gray-200 w-1/2 p-2 rounded-md shadow-sm  mt-2">
                   {skill}
                 </div>
               ))}
             </div>
           </div>
+          </div>
           <div>
             <button
               type="submit"
-              className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+              className="w-1/4 flex justify-center mt-4 mx-auto py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-blue_marguerite hover:bg-meteorite"
             >
               Post Job
             </button>
@@ -175,6 +180,7 @@ function PostJob() {
             <p className="font-bold">Form submitted successfully!</p>
           </div>
         )}
+      </div>
       </div>
     </div>
   );

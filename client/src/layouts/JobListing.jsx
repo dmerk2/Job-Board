@@ -7,7 +7,6 @@ import { useState } from "react";
 
 function JobListing() {
   const loggedIn = auth.loggedIn();
-  const userId = auth.getProfile().data._id;
   const { id } = useParams();
   const { loading, data } = useQuery(QUERY_JOB, { variables: { id: id } });
   const [applyJobMutation] = useMutation(APPLY_JOB);
@@ -22,7 +21,7 @@ function JobListing() {
   const applyJob = async () => {
     try {
       await applyJobMutation({
-        variables: { jobId: userId },
+        variables: { jobId: id },
       });
       setIsModalOpen(true);
     } catch (err) {
@@ -31,7 +30,7 @@ function JobListing() {
   };
 
   return ( 
-    <div className="container mx-auto px-6 py-20 w-1/2">
+    <div className="container min-h-screen mx-auto px-6 py-20 w-1/2">
       {isModalOpen && (
         <div className="fixed z-10 inset-0 overflow-y-auto">
           <div className="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
