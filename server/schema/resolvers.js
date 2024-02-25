@@ -4,9 +4,14 @@ const { User, Job, Application } = require("../models");
 const resolvers = {
   Query: {
     user: async (parent, args, context) => {
-      if (context.user) {
+      if (context.user.role === "employee") {
         const user = await User.findById(context.user._id).populate(
           "appliedJobs"
+        );
+        return user;
+      } else if (context.user.role === "employer") {
+        const user = await User.findById(context.user._id).populate(
+          "listedJobs"
         );
         return user;
       }
@@ -57,8 +62,6 @@ const resolvers = {
       throw AuthenticationError;
     },
     applyJob: async (parent, { jobId }, context) => {
-      console.log("context", context.user)
-      console.log("context.user._id", context.user._id)
       if (context.user) {
         // Check if the user has already applied for this job
         const existingApplication = await Application.findOne({
@@ -67,7 +70,7 @@ const resolvers = {
         });
 
         if (existingApplication) {
-          throw new Error("You have already applied for this job.");
+          alert("You have already applied for this job.");
         }
 
         // If the user hasn't applied before, update the existing document in the Application collection by pushing the user's _id to the applicantId array.
@@ -80,7 +83,7 @@ const resolvers = {
         const user = await User.findById(context.user._id);
 
         if (!user) {
-          throw new Error('User not found');
+          throw new Error("User not found");
         }
 
         // Update the appliedJobs array
@@ -88,8 +91,6 @@ const resolvers = {
 
         // Save the user
         const updatedUser = await user.save();
-
-        console.log("updatedUser", updatedUser);
 
         // Return some indication of success
         return { success: true, user: updatedUser };
