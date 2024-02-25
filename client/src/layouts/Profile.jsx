@@ -3,13 +3,14 @@ import { useQuery, useMutation } from "@apollo/client";
 import { QUERY_USER } from "../utils/queries";
 import { UPDATE_USER } from "../utils/mutations";
 import { Link } from "react-router-dom";
+import { getUserRole } from "../utils/helpers";
+import SuccessModal from "../components/Modals/SuccessModal";
+import ErrorModal from "../components/Modals/ErrorModal";
 
 function Profile() {
+  const role = getUserRole();
   const [updateUser] = useMutation(UPDATE_USER);
-  const { loading, data, error } = useQuery(QUERY_USER, {
-    fetchPolicy: "network-only",
-  
-  });
+  const { loading, data, error } = useQuery(QUERY_USER);
   const [formData, setFormData] = useState({
     username: "",
     email: "",
@@ -21,6 +22,8 @@ function Profile() {
     newSkill: "", // State to hold the value of the new skill input
   });
   const [modifiedFields, setModifiedFields] = useState({});
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isErrorModalOpen, setIsErrorModalOpen] = useState(false);
   const user = data?.user || {};
 
   useEffect(() => {
@@ -88,10 +91,14 @@ function Profile() {
           updatedFields[key] = formData[key];
         }
       }
+      if (Object.keys(updatedFields).length === 0) {
+        setIsErrorModalOpen(true);
+        return;
+      }
       await updateUser({
         variables: updatedFields,
       });
-      alert("Profile updated successfully!");
+      setIsModalOpen(true);
     } catch (error) {
       console.error(error);
     }
@@ -102,6 +109,10 @@ function Profile() {
 
   return (
     <div className="min-h-screen justify-center py-12 px-4 sm:px-6 lg:px-8">
+      {isErrorModalOpen && (
+        <ErrorModal setIsErrorModalOpen={setIsErrorModalOpen} message={"Please update at least one field."} />
+      )}
+      {isModalOpen && <SuccessModal setIsModalOpen={setIsModalOpen} message={"Profile updated successfully!"}/>}
       <div className="flex">
         <h2 className="mt-6 text-center mx-auto text-3xl font-bold text-gray-900">
           Profile
@@ -180,68 +191,105 @@ function Profile() {
             onChange={handleChange}
           />
           <br />
-          {/* New skill input */}
-          <label htmlFor="skills" className="text-2xl mr-2">
-            Skills:
-          </label>
-          <label htmlFor="newSkill" className="sr-only">
-            Add Skill
-          </label>
-          <input
-            id="newSkill"
-            name="newSkill"
-            type="text"
-            value={formData.newSkill}
-            onChange={handleChange}
-            placeholder="Add a skill"
-            className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-          />
-          <button
-            type="button"
-            onClick={handleAddSkill}
-            className="mt-2 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-          >
-            Add Skill
-          </button>
-          {/* Display entered skills */}
-          <div className="flex flex-wrap mt-2">
-            {formData.skills.map((skill, index) => (
-              <div
-                key={index}
-                className="bg-gray-100 p-2 rounded-md mr-2 mb-2 flex items-center"
+          {role === "employee" ? (
+            <>
+              {/* New skill input */}
+              <label htmlFor="skills" className="text-2xl mr-2">
+                Skills:
+              </label>
+              <label htmlFor="newSkill" className="sr-only">
+                Add Skill
+              </label>
+              <input
+                id="newSkill"
+                name="newSkill"
+                type="text"
+                value={formData.newSkill}
+                onChange={handleChange}
+                placeholder="Add a skill"
+                className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+              />
+              <button
+                type="button"
+                onClick={handleAddSkill}
+                className="mt-2 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
               >
-                <div className="mr-2">{skill}</div>
-                <button
-                  type="button"
-                  onClick={() => handleRemoveSkill(index)}
-                  className="text-red-600"
-                >
-                  X
-                </button>
-              </div>
-            ))}
-          </div>
-          <br />
-          <div className="flex justify-center">
-            {user?.appliedJobs?.map((job) => (
-              <div
-                className="max-w-sm rounded overflow-hidden shadow-lg bg-white border border-gray-200 mx-4 mb-8"
-                key={job._id}
-              >
-                <div className="px-6 py-4">
-                  <div className="font-bold text-xl mb-2 ">{job.title}</div>
-                  <div className="px-6 pb-2 text-center">
-                    <Link to={`/employees/${job.employerId._id}/${job._id}`}>
-                      <button className="bg-camelot text-white px-4 py-2 mb-2 rounded-md">
-                        View Details
-                      </button>
-                    </Link>
+                Add Skill
+              </button>
+              {/* Display entered skills */}
+              <div className="flex flex-wrap mt-2">
+                {formData.skills.map((skill, index) => (
+                  <div
+                    key={index}
+                    className="bg-gray-100 p-2 rounded-md mr-2 mb-2 flex items-center"
+                  >
+                    <div className="mr-2">{skill}</div>
+                    <button
+                      type="button"
+                      onClick={() => handleRemoveSkill(index)}
+                      className="text-red-600"
+                    >
+                      X
+                    </button>
                   </div>
-                </div>
+                ))}
               </div>
-            ))}
-          </div>
-          <br />
+              <br />
+              <h3 className="text-center mb-2 text-2xl font-bold">
+                Previously Applied Jobs
+              </h3>
+              <div className="flex justify-center">
+                {user?.appliedJobs?.map((job) => (
+                  <div
+                    className="max-w-sm rounded overflow-hidden shadow-lg bg-white border border-gray-200 mx-4 mb-8"
+                    key={job._id}
+                  >
+                    <div className="px-6 py-4">
+                      <div className="font-bold text-xl mb-2 ">{job.title}</div>
+                      <div className="px-6 pb-2 text-center">
+                        <Link
+                          to={`/employees/${job.employerId._id}/${job._id}`}
+                        >
+                          <button className="bg-camelot text-white px-4 py-2 mb-2 rounded-md">
+                            View Details
+                          </button>
+                        </Link>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+              <br />
+            </>
+          ) : (
+            <>
+              <h3 className="text-center mb-2 text-2xl font-bold">
+                Posted Jobs
+              </h3>
+              <div className="flex justify-center">
+                {user?.listedJobs?.map((job) => (
+                  <div
+                    className="max-w-sm rounded overflow-hidden shadow-lg bg-white border border-gray-200 mx-4 mb-8"
+                    key={job._id}
+                  >
+                    <div className="px-6 py-4">
+                      <div className="font-bold text-xl mb-2 ">{job.title}</div>
+                      <div className="px-6 pb-2 text-center">
+                        <Link
+                          to={`/employees/${job.employerId._id}/${job._id}`}
+                        >
+                          <button className="bg-camelot text-white px-4 py-2 mb-2 rounded-md">
+                            View Details
+                          </button>
+                        </Link>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+              <br />
+            </>
+          )}
           <button
             type="submit"
             className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"

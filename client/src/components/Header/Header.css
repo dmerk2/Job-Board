@@ -1,4 +1,8 @@
 header {
-       border-bottom: 5px solid var(--blue_marguerite);
+    border-bottom: 5px solid var(--blue_marguerite);
     background-color: var(--athens_gray);
+}
+
+#mobile-menu-2 {
+    padding-right: 10rem;
 }
