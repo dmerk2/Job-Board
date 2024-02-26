@@ -35,11 +35,18 @@ const resolvers = {
       return jobs;
     },
     jobListings: async (_, { title }) => {
+      if (!title) {
+        throw new Error("You must enter a title to search for a job.");
+      }
+      const spaceRegex = /^\s+$/;
+      if (spaceRegex.test(title)) {
+        throw new Error("Your input cannot be just spaces.");
+      }
       const jobTitle = Job.find({
         title: { $regex: title, $options: "i" },
       }).populate("employerId");
       return await jobTitle;
-    }, 
+    },
     jobListing: async (_, { _id }) => {
       const jobTitle = Job.findById(_id).populate("employerId");
       return await jobTitle;
@@ -70,7 +77,7 @@ const resolvers = {
         });
 
         if (existingApplication) {
-          alert("You have already applied for this job.");
+          throw new Error("You have already applied for this job.");
         }
 
         // If the user hasn't applied before, update the existing document in the Application collection by pushing the user's _id to the applicantId array.
