@@ -30,7 +30,7 @@ function SearchBar() {
           <input
             type="search"
             id="search-dropdown"
-            className="block p-2.5 w-full z-20 rounded-l-lg text-sm text-gray-900 rounded-e-lg 0 border-gray border-s-2 border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-s-gray-700  dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:border-blue-500"
+            className="block p-2.5 w-full z-20 rounded-l-lg text-sm text-gray-900 rounded-e-lg 0 border-gray border-s-2 border border-gray-300 focus:outline-none focus:ring-blue-500 focus:border-blue-500"
             placeholder="What kind of job would you like?"
             required
             value={title}
@@ -38,7 +38,7 @@ function SearchBar() {
           />
           <button
             type="submit"
-            className="absolute top-0 end-0 p-2.5 text-sm font-medium h-full text-white bg-blue_marguerite rounded-e-lg border border-blue_marguerite hover:bg-meteorite focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+            className="absolute top-0 end-0 p-2.5 text-sm font-medium h-full text-white bg-blue_marguerite rounded-e-lg border border-blue_marguerite hover:bg-meteorite focus:outline-none"
           >
             <svg
               className="w-4 h-4"
