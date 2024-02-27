@@ -3,8 +3,10 @@ import { LOGIN } from "../utils/mutations";
 import auth from "../utils/auth";
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import ErrorModal from "../components/Modals/ErrorModal";
 
 function Login() {
+  const [isErrorModalOpen, setIsErrorModalOpen] = useState(false);
   const [formState, setFormState] = useState({
     email: "",
     password: "",
@@ -20,7 +22,7 @@ function Login() {
       const token = loginMutation.data.login.token;
       auth.login(token);
     } catch (error) {
-      alert("Incorrect username or password");
+      setIsErrorModalOpen(true);
       console.error(error);
     }
   };
@@ -32,6 +34,12 @@ function Login() {
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
+      {isErrorModalOpen && (
+        <ErrorModal
+          setIsErrorModalOpen={setIsErrorModalOpen}
+          message={"Invalid email or password"}
+        />
+      )}
       <div className="max-w-md w-full space-y-8">
         <div>
           <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
@@ -83,7 +91,9 @@ function Login() {
           </div>
         </form>
         <div className="flex items-center justify-center">
-          <Link to="/signup" style={{color: "blue"}}>Create an account</Link>
+          <Link to="/signup" style={{ color: "blue" }}>
+            Create an account
+          </Link>
         </div>
       </div>
     </div>

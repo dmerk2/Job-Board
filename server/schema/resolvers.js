@@ -69,76 +69,37 @@ const resolvers = {
       }
       throw AuthenticationError;
     },
-    // applyJob: async (parent, { jobId }, context) => {
-    //   if (context.user) {
-    //     // Check if the user has already applied for this job
-    //     const existingApplication = await Application.findOne({
-    //       jobId,
-    //       applicantId: context.user._id,
-    //     });
-
-    //     if (existingApplication) {
-    //       throw new Error("You have already applied for this job.");
-    //     }
-
-    //     // If the user hasn't applied before, update the existing document in the Application collection by pushing the user's _id to the applicantId array.
-    //     await Application.updateOne(
-    //       { jobId },
-    //       { $push: { applicantId: context.user._id } }
-    //     );
-
-    //     // Find the user
-    //     const user = await User.findById(context.user._id);
-
-    //     if (!user) {
-    //       throw new Error("User not found");
-    //     }
-
-    //     // Update the appliedJobs array
-    //     user.appliedJobs.push(jobId);
-
-    //     // Save the user
-    //     const updatedUser = await user.save();
-
-    //     // Return some indication of success
-    //     return { success: true, user: updatedUser };
-    //   }
-
-    //   throw new AuthenticationError(
-    //     "You must be logged in to apply for a job."
-    //   );
-    // },
     applyJob: async (parent, { jobId }, context) => {
       if (!context.user) {
         throw new AuthenticationError(
           "You must be logged in to apply for a job."
         );
       }
-    
+
       // Check if the user has already applied for this job
       const existingApplication = await Application.findOne({
         jobId,
         applicantId: context.user._id,
       });
-    
+
       if (existingApplication) {
         throw new Error("You have already applied for this job.");
       }
-    
+
       // Fetch job details including employer's userId
       const job = await Job.findById(jobId);
-    
+
       if (!job) {
         throw new Error("Job not found");
       }
-    
+
       // Fetch the employer
       const employer = await User.findById(job.employerId);
-    
+
       if (!employer) {
         throw new Error("Employer not found");
       }
-    
+
       // Send email to the employer
       try {
         await sendEmail(
@@ -147,27 +108,27 @@ const resolvers = {
           `You have a new job application for "${job.title}" from ${context.user.email}!`
         );
         console.log("Email sent successfully!");
-    
+
         // If the email sending is successful, update the database
         // Update the existing document in the Application collection by pushing the user's _id to the applicantId array.
         await Application.updateOne(
           { jobId },
           { $push: { applicantId: context.user._id } }
         );
-    
+
         // Find the user
         const user = await User.findById(context.user._id);
-    
+
         if (!user) {
           throw new Error("User not found");
         }
-    
+
         // Update the appliedJobs array
         user.appliedJobs.push(jobId);
-    
+
         // Save the user
         const updatedUser = await user.save();
-    
+
         // Return some indication of success
         return { success: true, user: updatedUser };
       } catch (error) {
@@ -175,7 +136,7 @@ const resolvers = {
         throw new Error("Failed to send email to employer.");
       }
     },
-    
+
     login: async (parent, { email, password }) => {
       const user = await User.findOne({ email });
       if (!user) {

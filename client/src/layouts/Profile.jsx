@@ -29,7 +29,6 @@ function Profile() {
   useEffect(() => {
     if (!loading && data) {
       const user = data.user;
-      console.log("User: ", user);
       setFormData({
         username: user.username,
         email: user.email,
