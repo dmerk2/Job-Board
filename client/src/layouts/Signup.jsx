@@ -3,8 +3,10 @@ import { SIGNUP } from "../utils/mutations";
 import auth from "../utils/auth";
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import ErrorModal from "../components/Modals/ErrorModal";
 
 function Signup() {
+  const [isErrorModalOpen, setIsErrorModalOpen] = useState(false);
   const [formState, setFormState] = useState({
     username: "",
     email: "",
@@ -17,7 +19,7 @@ function Signup() {
     e.preventDefault();
     try {
       if (formState.password.length !== 6) {
-        alert("Password must be atleast 6 characters long");
+        setIsErrorModalOpen(true);
         return;
       }
       const signupMutation = await signup({
@@ -42,6 +44,12 @@ function Signup() {
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
+      {isErrorModalOpen && (
+        <ErrorModal
+          setIsErrorModalOpen={setIsErrorModalOpen}
+          message={"Password must be 6 characters long"}
+        />
+      )}
       <div className="max-w-md w-full space-y-8">
         <div>
           <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
