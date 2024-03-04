@@ -74,14 +74,14 @@ function PostJob() {
     <div className="flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
       <div className="w-full space-y-4">
         <div className="flex">
-          <h2 className="mt-6 px-4 py-2 rounded-full text-center bg-meteorite mx-auto text-3xl font-bold text-white">
+          <h2 className="mt-6 px-4 py-2 rounded-full text-center text-meteorite mx-auto text-3xl font-bold">
             Post a Job
           </h2>
         </div>
         <div className="flex justify-center mx-auto">
           <form className="mt-8 w-1/2" onSubmit={handleFormSubmit}>
             <div className="flex">
-              <div className="w-1/2 space-y-4">
+              <div className="w-full lg:w-1/2 space-y-4">
                 <div>
                   <label htmlFor="title" className="sr-only">
                     Job Title
@@ -131,7 +131,7 @@ function PostJob() {
                   />
                 </div>
               </div>
-              <div className="w-1/2">
+              <div className="w-full lg:w-1/2">
                 <div className="flex justify-center mx-auto space-x-4">
                   <label htmlFor="skills" className="sr-only">
                     Skills Needed
