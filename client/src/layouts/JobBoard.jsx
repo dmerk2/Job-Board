@@ -1,18 +1,19 @@
 import { useQuery } from "@apollo/client";
 import { QUERY_ALL_JOBS } from "../utils/queries";
 import { Link } from "react-router-dom";
+import Loading from "../components/Loading/Loading.jsx";
 
 // eslint-disable-next-line react/prop-types
 function JobBoard({ itemsToShow }) {
   const { loading, data } = useQuery(QUERY_ALL_JOBS);
 
-  if (loading) return <div>Loading...</div>;
+  if (loading) return <Loading/>;
 
   const jobs = data?.allJobs || [];
   return (
     <section>
       <div className="flex justify-center">
-        <div className="flex flex-wrap container mx-auto px-6 py-20">
+        <div className="flex flex-wrap container mx-auto px-6 py-10">
           {jobs.slice(0, itemsToShow).map((job) => (
             <div
               key={job._id}

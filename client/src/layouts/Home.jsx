@@ -79,11 +79,11 @@ function Home() {
       </section>
 
       <section className="bg-gray-100">
-        <h2 className="text-3xl text-center font-bold py-2">Jobs</h2>
+        <h2 className="text-3xl text-center font-bold pt-10">Jobs</h2>
         <JobBoard itemsToShow={itemsToShow} />
         <div className="text-center">
           <Link to="/employees/home">
-            <button className="bg-camelot text-white px-4 mb-8 rounded-lg py-3">
+            <button className="bg-camelot text-white mb-10 px-4 rounded-lg py-3">
               All Jobs
             </button>
           </Link>

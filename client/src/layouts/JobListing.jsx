@@ -6,6 +6,7 @@ import auth from "../utils/auth";
 import { useState } from "react";
 import SuccessModal from "../components/Modals/SuccessModal";
 import ErrorModal from "../components/Modals/ErrorModal";
+import Loading from "../components/Loading/Loading.jsx";
 
 function JobListing() {
   const loggedIn = auth.loggedIn();
@@ -18,7 +19,7 @@ function JobListing() {
 
   const job = data?.jobListing || [];
   if (loading) {
-    return <div>Loading...</div>;
+    return <Loading/>;
   }
 
   const applyJob = async () => {
@@ -54,8 +55,8 @@ function JobListing() {
         {job.employerId.username}
       </h2>
       <h3 className="font-bold text-xl mb-2">{job.title}</h3>
+      <h4 className="font-bold text-gray-700 mb-4">{job.location}</h4>
       <p className="text-gray-700 mb-4">{job.description}</p>
-      <p className="text-gray-700 mb-4">{job.location}</p>
       <div>
         <h2>Skills Needed:</h2>
         <div className="pt-4 pb-2">
