@@ -1,6 +1,7 @@
 import { useQuery } from "@apollo/client";
 import { QUERY_USERS } from "../utils/queries";
 import { getUserRole } from "../utils/helpers";
+import Loading from "../components/Loading/Loading.jsx";
 
 function UserBoard() {
   const role = getUserRole()
@@ -13,7 +14,7 @@ function UserBoard() {
     },
   });
 
-  if (loading) return <div>Loading...</div>;
+  if (loading) return <Loading/>;
 
   const employees = data?.users || [];
 

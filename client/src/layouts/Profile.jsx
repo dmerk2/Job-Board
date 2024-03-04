@@ -5,7 +5,8 @@ import { UPDATE_USER } from "../utils/mutations";
 import { Link } from "react-router-dom";
 import { getUserRole } from "../utils/helpers";
 import SuccessModal from "../components/Modals/SuccessModal";
-import ErrorModal from "../components/Modals/ErrorModal"; 
+import ErrorModal from "../components/Modals/ErrorModal";
+import Loading from "../components/Loading/Loading.jsx";
 
 function Profile() {
   const role = getUserRole();
@@ -103,7 +104,7 @@ function Profile() {
     }
   };
 
-  if (loading) return <div>Loading...</div>;
+  if (loading) return <Loading/>;
   if (error) return <div>Error: {error.message}</div>;
 
   return (
@@ -144,28 +145,26 @@ function Profile() {
           />
           <br />
           <label htmlFor="firstName" className="text-2xl mr-2">
-            First Name:
+            Name:
           </label>
+          <div className="flex gap-3">
           <input
             id="firstName"
             type="text"
             name="firstName"
             value={formData.firstName}
-            className="appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-camelot focus:border-camelot focus:z-10 sm:text-sm"
+            className="appearance-none relative block w-1/2 px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-camelot focus:border-camelot focus:z-10 sm:text-sm"
             onChange={handleChange}
           />
-          <br />
-          <label htmlFor="lastName" className="text-2xl mr-2">
-            Last Name:
-          </label>
           <input
             id="lastName"
             type="text"
             name="lastName"
             value={formData.lastName}
-            className="appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-camelot focus:border-camelot focus:z-10 sm:text-sm"
+            className="appearance-none relative block w-1/2 px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-camelot focus:border-camelot focus:z-10 sm:text-sm"
             onChange={handleChange}
           />
+          </div>
           <br />
           <label htmlFor="bio" className="text-2xl mr-2">
             Bio:
@@ -174,7 +173,7 @@ function Profile() {
             id="bio"
             name="bio"
             value={formData.bio}
-            className="appearance-none relative block h-1/4 w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-camelot focus:border-camelot focus:z-10 sm:text-sm"
+            className="appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-camelot focus:border-camelot focus:z-10 sm:text-sm"
             onChange={handleChange}
           />
           <br />
@@ -234,17 +233,17 @@ function Profile() {
                 ))}
               </div>
               <br />
-              <h3 className="text-center mb-2 text-2xl font-bold">
+              <h3 className="text-center mb-8 text-2xl font-bold">
                 Previously Applied Jobs
               </h3>
-              <div className="flex justify-center">
+              <div className="grid grid-cols-1 xl:grid-cols-3 md:grid-cols-2 gap-10">
                 {user?.appliedJobs?.map((job) => (
                   <div
                     className="max-w-sm rounded overflow-hidden shadow-lg bg-white border border-gray-200 mx-4 mb-8"
                     key={job._id}
                   >
                     <div className="px-6 py-4">
-                      <div className="font-bold text-xl mb-2 ">{job.title}</div>
+                      <div className="font-bold text-xl mb-2 text-center">{job.title}</div>
                       <div className="px-6 pb-2 text-center">
                         <Link
                           to={`/employees/${job.employerId._id}/${job._id}`}
@@ -262,17 +261,17 @@ function Profile() {
             </>
           ) : (
             <>
-              <h3 className="text-center mb-2 text-2xl font-bold">
+              <h3 className="text-center mb-8 text-2xl font-bold">
                 Posted Jobs
               </h3>
-              <div className="flex justify-center">
+              <div className="grid grid-cols-1 xl:grid-cols-3 md:grid-cols-2 gap-10">
                 {user?.listedJobs?.map((job) => (
                   <div
                     className="max-w-sm rounded overflow-hidden shadow-lg bg-white border border-gray-200 mx-4 mb-8"
                     key={job._id}
                   >
                     <div className="px-6 py-4">
-                      <div className="font-bold text-xl mb-2 ">{job.title}</div>
+                      <div className="font-bold text-xl mb-2  text-center">{job.title}</div>
                       <div className="px-6 pb-2 text-center">
                         <Link
                           to={`/employees/${job.employerId._id}/${job._id}`}
@@ -291,7 +290,7 @@ function Profile() {
           )}
           <button
             type="submit"
-            className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+            className="group relative w-full md:w-1/4 flex mx-auto justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
           >
             Update Profile
           </button>
