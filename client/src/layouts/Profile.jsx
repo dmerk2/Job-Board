@@ -104,15 +104,23 @@ function Profile() {
     }
   };
 
-  if (loading) return <Loading/>;
+  if (loading) return <Loading />;
   if (error) return <div>Error: {error.message}</div>;
 
   return (
     <div className="min-h-screen justify-center py-12 px-4 sm:px-6 lg:px-8">
       {isErrorModalOpen && (
-        <ErrorModal setIsErrorModalOpen={setIsErrorModalOpen} message={"Please update at least one field."} />
+        <ErrorModal
+          setIsErrorModalOpen={setIsErrorModalOpen}
+          message={"Please update at least one field."}
+        />
       )}
-      {isModalOpen && <SuccessModal setIsModalOpen={setIsModalOpen} message={"Profile updated successfully!"}/>}
+      {isModalOpen && (
+        <SuccessModal
+          setIsModalOpen={setIsModalOpen}
+          message={"Profile updated successfully!"}
+        />
+      )}
       <div className="flex">
         <h2 className="mt-6 text-center mx-auto text-3xl font-bold text-gray-900">
           Profile
@@ -148,22 +156,22 @@ function Profile() {
             Name:
           </label>
           <div className="flex gap-3">
-          <input
-            id="firstName"
-            type="text"
-            name="firstName"
-            value={formData.firstName}
-            className="appearance-none relative block w-1/2 px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-camelot focus:border-camelot focus:z-10 sm:text-sm"
-            onChange={handleChange}
-          />
-          <input
-            id="lastName"
-            type="text"
-            name="lastName"
-            value={formData.lastName}
-            className="appearance-none relative block w-1/2 px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-camelot focus:border-camelot focus:z-10 sm:text-sm"
-            onChange={handleChange}
-          />
+            <input
+              id="firstName"
+              type="text"
+              name="firstName"
+              value={formData.firstName}
+              className="appearance-none relative block w-1/2 px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-camelot focus:border-camelot focus:z-10 sm:text-sm"
+              onChange={handleChange}
+            />
+            <input
+              id="lastName"
+              type="text"
+              name="lastName"
+              value={formData.lastName}
+              className="appearance-none relative block w-1/2 px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-camelot focus:border-camelot focus:z-10 sm:text-sm"
+              onChange={handleChange}
+            />
           </div>
           <br />
           <label htmlFor="bio" className="text-2xl mr-2">
@@ -243,8 +251,10 @@ function Profile() {
                     key={job._id}
                   >
                     <div className="px-6 py-4">
-                      <div className="font-bold text-xl mb-2 text-center">{job.title}</div>
-                      <div className="px-6 pb-2 text-center">
+                      <div className="font-bold text-xl mb-2 text-center">
+                        {job.title}
+                      </div>
+                      <div className="px-6 pb-2 flex justify-center">
                         <Link
                           to={`/employees/${job.employerId._id}/${job._id}`}
                         >
@@ -267,12 +277,14 @@ function Profile() {
               <div className="grid grid-cols-1 xl:grid-cols-3 md:grid-cols-2 gap-10">
                 {user?.listedJobs?.map((job) => (
                   <div
-                    className="max-w-sm rounded overflow-hidden shadow-lg bg-white border border-gray-200 mx-4 mb-8"
+                    className="max-w-sm rounded overflow-hidden shadow-lg bg-white border border-gray-200 mb-8"
                     key={job._id}
                   >
                     <div className="px-6 py-4">
-                      <div className="font-bold text-xl mb-2  text-center">{job.title}</div>
-                      <div className="px-6 pb-2 text-center">
+                      <div className="font-bold text-xl mb-2 flex text-center">
+                        {job.title}
+                      </div>
+                      <div className="px-6 pb-2 flex justify-center">
                         <Link
                           to={`/employees/${job.employerId._id}/${job._id}`}
                         >
