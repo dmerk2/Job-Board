@@ -1,6 +1,6 @@
 const { signToken, AuthenticationError } = require("../utils/auth");
 const { User, Job, Application } = require("../models");
-const sendEmail = require("../utils/nodeMailer");
+// const sendEmail = require("../utils/nodeMailer");
 
 const resolvers = {
   Query: {
