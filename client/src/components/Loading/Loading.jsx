@@ -7,7 +7,7 @@ function Loading() {
   useEffect(() => {
     const timer = setTimeout(() => {
       setIsError(true);
-    }, 15000);
+    }, 5000);
 
     return () => clearTimeout(timer); // This will clear the timer if the component is unmounted before 30 seconds
   }, []);
@@ -20,7 +20,7 @@ function Loading() {
     <div className="animate-spin ml-6 mt-7 inline-block size-6 border-[3px] border-current border-t-transparent text-meteorite rounded-full" role="status" aria-label="loading">   </div>
     </div>
     </div>
-      {isError && <ErrorModal setIsErrorModalOpen={setIsError} message="Loading took too long. Redirect to homepage." showRedirectButton={true} />}
+      {isError && <ErrorModal setIsErrorModalOpen={setIsError} message="Loading took too long. Click the button to redirect to the homepage, or close to try again." showRedirectButton={true} />}
     </div>
   );
 }
