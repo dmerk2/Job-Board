@@ -80,7 +80,7 @@ function Home() {
 
       <section className="bg-gray-100">
         <h2 className="text-3xl text-center font-bold pt-10">Jobs</h2>
-        <JobBoard itemsToShow={itemsToShow} />
+        <JobBoard  itemsToShow={4}  />
         <div className="text-center">
           <Link to="/employees/home">
             <button className="bg-camelot text-white mb-10 px-4 rounded-lg py-3">
