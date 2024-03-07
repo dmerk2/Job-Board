@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useLazyQuery } from "@apollo/client";
 import { QUERY_JOBS } from "../../utils/queries";
 import { useNavigate } from "react-router-dom";
@@ -6,10 +6,14 @@ import { useDispatch } from "react-redux";
 import { setTitle as setJobTitle } from "../../utils/jobSlice";
 
 function SearchBar() {
-  const dispatch = useDispatch();
-  const [title, setTitle] = useState("");
+  const [title, setTitle] = useState(localStorage.getItem("title") || "");
   const [getJobs] = useLazyQuery(QUERY_JOBS);
+  const dispatch = useDispatch();
   const navigate = useNavigate();
+
+  useEffect(() => {
+    localStorage.setItem("title", title);
+  }, [title]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
