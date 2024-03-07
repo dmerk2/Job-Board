@@ -18,7 +18,7 @@ function Signup() {
   const handleFormSubmit = async (e) => {
     e.preventDefault();
     try {
-      if (formState.password.length !== 6) {
+      if (formState.password.length < 6) {
         setIsErrorModalOpen(true);
         return;
       }
