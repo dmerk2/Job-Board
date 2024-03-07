@@ -1,6 +1,7 @@
 const { signToken, AuthenticationError } = require("../utils/auth");
 const { User, Job, Application } = require("../models");
 // const sendEmail = require("../utils/nodeMailer");
+const { generatePresignedUrl } = require("../utils/s3");
 
 const resolvers = {
   Query: {
@@ -136,7 +137,6 @@ const resolvers = {
         throw new Error("Failed to send email to employer.");
       }
     },
-
     login: async (parent, { email, password }) => {
       const user = await User.findOne({ email });
       if (!user) {
@@ -150,6 +150,15 @@ const resolvers = {
       }
       const token = signToken(user);
       return { user, token };
+    },
+    getPresignedUrl: async (_, { key }) => {
+      try {
+        const presignedUrl = await generatePresignedUrl(key);
+        return { presignedUrl, key };
+      } catch (error) {
+        console.error(error);
+        throw new Error("Failed to generate pre-signed URL");
+      }
     },
     updateUser: async (parent, args, context) => {
       if (context.user) {
