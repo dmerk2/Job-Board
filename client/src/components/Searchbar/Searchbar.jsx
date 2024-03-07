@@ -15,6 +15,11 @@ function SearchBar() {
     localStorage.setItem("title", title);
   }, [title]);
 
+   // Reset input field when component mounts
+  useEffect(() => {
+    setTitle("");
+  }, []);
+
   const handleSubmit = (e) => {
     e.preventDefault();
     const titleWithHyphens = title.split(" ").join("-").toLowerCase();

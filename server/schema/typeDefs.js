@@ -36,6 +36,11 @@ const typeDefs = `
     user: User
   }
 
+  type PresignedUrlResponse {
+    presignedUrl: String
+    key: String
+  }
+
   type Query {
     user: User
     users(role: String!): [User!]!
@@ -49,6 +54,7 @@ const typeDefs = `
     addUser(username: String!, email: String!, password: String!, role: String!): Auth
     addJob(title: String!, description: String!, location: String!, skills: [String!]): Job
     applyJob(jobId: ID!): Application
+    getPresignedUrl(key: String!): PresignedUrlResponse
     updateUser(username: String, email: String, password: String, firstName: String, lastName: String, bio: String, location: String, skills: [String]): User
   }
 `;

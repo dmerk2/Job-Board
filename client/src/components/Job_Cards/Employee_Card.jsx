@@ -30,9 +30,7 @@ function Employee_Card() {
               {employee.firstName} {employee.lastName}
             </div>
             <div className="font-bold text-lg">{employee.location}</div>
-            <div
-              className="mt-2 text-lg no-underline hover:underline"
-            >
+            <div className="mt-2 text-lg no-underline hover:underline">
               <a href={`mailto:${employee.email}`} style={{ color: "blue" }}>
                 {employee.email}
               </a>
