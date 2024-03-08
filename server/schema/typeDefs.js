@@ -36,9 +36,10 @@ const typeDefs = `
     user: User
   }
 
-  type PresignedUrlResponse {
-    presignedUrl: String
-    key: String
+  type Image {
+    filename: String!
+    mimetype: String!
+    encoding: String!
   }
 
   type Query {
@@ -54,7 +55,7 @@ const typeDefs = `
     addUser(username: String!, email: String!, password: String!, role: String!): Auth
     addJob(title: String!, description: String!, location: String!, skills: [String!]): Job
     applyJob(jobId: ID!): Application
-    getPresignedUrl(key: String!): PresignedUrlResponse
+    uploadImage(file: Upload!): Image
     updateUser(username: String, email: String, password: String, firstName: String, lastName: String, bio: String, location: String, skills: [String]): User
   }
 `;

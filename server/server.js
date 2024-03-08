@@ -38,21 +38,6 @@ const startApolloServer = async () => {
     })
   );
 
-  // Route for generating pre-signed URL for file uploads
-  app.get("/presigned-url", upload.single("file"), async (req, res) => {
-    try {
-      const key = req.query.key;
-      if (!key) {
-        return res.status(400).json({ error: "No key provided" });
-      }
-      const presignedUrl = await generatePresignedUrl(key);
-      res.json({ presignedUrl });
-    } catch (error) {
-      console.error("Error generating pre-signed URL:", error);
-      res.status(500).json({ error: error.toString() });
-    }
-  });
-
   // Serve client-side assets in production mode
   if (process.env.NODE_ENV === "production") {
     app.use(express.static(path.join(__dirname, "../client/dist")));

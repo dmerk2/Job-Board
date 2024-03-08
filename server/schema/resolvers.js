@@ -1,7 +1,7 @@
 const { signToken, AuthenticationError } = require("../utils/auth");
 const { User, Job, Application } = require("../models");
 // const sendEmail = require("../utils/nodeMailer");
-const { generatePresignedUrl } = require("../utils/s3");
+const { uploadImage } = require("../utils/s3");
 
 const resolvers = {
   Query: {
@@ -151,15 +151,6 @@ const resolvers = {
       const token = signToken(user);
       return { user, token };
     },
-    getPresignedUrl: async (_, { key }) => {
-      try {
-        const presignedUrl = await generatePresignedUrl(key);
-        return { presignedUrl, key };
-      } catch (error) {
-        console.error(error);
-        throw new Error("Failed to generate pre-signed URL");
-      }
-    },
     updateUser: async (parent, args, context) => {
       if (context.user) {
         const updatedUser = await User.findByIdAndUpdate(
@@ -170,6 +161,19 @@ const resolvers = {
         return updatedUser;
       }
       throw AuthenticationError;
+    },
+    uploadImage: async (parent, { file }, context) => {
+      if (!context.user) {
+        throw new AuthenticationError("You must be logged in to upload an image.");
+      }
+
+      const { createReadStream, filename, mimetype, encoding } = await file;
+      const stream = createReadStream();
+      const key = `${context.user._id}/${filename}`;
+
+      const upload = await uploadImage(key, stream, mimetype);
+
+      return upload;
     },
   },
 };
