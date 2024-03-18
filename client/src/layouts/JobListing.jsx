@@ -12,7 +12,9 @@ function JobListing() {
   const loggedIn = auth.loggedIn();
   const { id } = useParams();
   const { loading, data } = useQuery(QUERY_JOB, { variables: { id: id } });
-  const [applyJobMutation] = useMutation(APPLY_JOB);
+  const [applyJobMutation] = useMutation(APPLY_JOB, {
+    refetchQueries: [{ query: QUERY_JOB }],
+  });
   const jobTitle = data?.jobListing.title;
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isErrorModalOpen, setIsErrorModalOpen] = useState(false);
@@ -30,7 +32,7 @@ function JobListing() {
       setIsModalOpen(true);
     } catch (error) {
       console.error(error.message)
-      if (error.message === "You have already applied for this job.") {
+      if (error.message === "You have already applied for this job") {
         setIsErrorModalOpen(true);
       }
     }
