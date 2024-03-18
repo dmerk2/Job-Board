@@ -36,12 +36,6 @@ const typeDefs = `
     user: User
   }
 
-  type Image {
-    filename: String!
-    mimetype: String!
-    encoding: String!
-  }
-
   type Query {
     user: User
     users(role: String!): [User!]!
@@ -55,7 +49,6 @@ const typeDefs = `
     addUser(username: String!, email: String!, password: String!, role: String!): Auth
     addJob(title: String!, description: String!, location: String!, skills: [String!]): Job
     applyJob(jobId: ID!): Application
-    uploadImage(file: Upload!): Image
     updateUser(username: String, email: String, password: String, firstName: String, lastName: String, bio: String, location: String, skills: [String]): User
   }
 `;

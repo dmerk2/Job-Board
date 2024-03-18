@@ -25,6 +25,7 @@ function Profile() {
   const [modifiedFields, setModifiedFields] = useState({});
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isErrorModalOpen, setIsErrorModalOpen] = useState(false);
+  const [selectedFile, setSelectedFile] = useState(null);
   const user = data?.user || {};
 
   useEffect(() => {
@@ -81,9 +82,33 @@ function Profile() {
     }));
   };
 
+  const handleFileChange = (e) => {
+    setSelectedFile(e.target.files[0]);
+    setModifiedFields((prevModifiedFields) => ({
+      ...prevModifiedFields,
+      file: true,
+    }));
+  };
+
   const handleFormSubmit = async (e) => {
     e.preventDefault();
+    const formData = new FormData();
+    if (!selectedFile) {
+      console.error("No file selected");
+      return;
+    }
+    formData.append("file", selectedFile);
+    console.log("selectedFile", selectedFile);
+    console.log("formData", [...formData.entries()]);
     try {
+      const response = await fetch("http://localhost:3001/upload", {
+        method: "POST",
+        body: formData,
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to upload image");
+      }
       const updatedFields = {};
       // Check each field to see if it's been modified
       for (const key in modifiedFields) {
@@ -127,7 +152,8 @@ function Profile() {
         </h2>
       </div>
       <div className="flex justify-center my-auto mx-auto">
-        <form onSubmit={handleFormSubmit} className="mt-6 w-1/2">
+        <form onSubmit={handleFormSubmit} className="mt-6 w-1/2" encType="multipart/form-data">
+          <input type="file" onChange={handleFileChange} />
           <label htmlFor="username" className="text-2xl mr-2">
             Username:
           </label>

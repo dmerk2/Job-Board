@@ -6,12 +6,12 @@ const s3 = new AWS.S3({
   region: process.env.AWS_REGION,
 });
 
-const uploadImage = async (key, file) => {
+const uploadImage = async (key, file, mimetype) => {
   const params = {
     Bucket: process.env.AWS_BUCKET_NAME,
     Key: key,
     Body: file,
-    ContentType: file.mimetype,
+    ContentType: mimetype,
   };
 
   return s3.upload(params).promise();

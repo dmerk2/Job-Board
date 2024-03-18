@@ -162,19 +162,6 @@ const resolvers = {
       }
       throw AuthenticationError;
     },
-    uploadImage: async (parent, { file }, context) => {
-      if (!context.user) {
-        throw new AuthenticationError("You must be logged in to upload an image.");
-      }
-
-      const { createReadStream, filename, mimetype, encoding } = await file;
-      const stream = createReadStream();
-      const key = `${context.user._id}/${filename}`;
-
-      const upload = await uploadImage(key, stream, mimetype);
-
-      return upload;
-    },
   },
 };
 

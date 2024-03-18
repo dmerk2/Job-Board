@@ -8,7 +8,8 @@ const path = require("path");
 const { typeDefs, resolvers } = require("./schema");
 const db = require("./config/connection");
 const multer = require("multer");
-
+const { uploadImage } = require("./utils/s3");
+const cors = require("cors");
 const PORT = process.env.PORT || 3001;
 
 // Create an Express application
@@ -30,6 +31,9 @@ const startApolloServer = async () => {
   // Serve static images from the client directory
   app.use("/images", express.static(path.join(__dirname, "../client/images")));
 
+  // Enable CORS
+  app.use(cors());
+
   // Set up GraphQL endpoint with authentication middleware
   app.use(
     "/graphql",
@@ -37,6 +41,24 @@ const startApolloServer = async () => {
       context: authMiddleware,
     })
   );
+
+  // Set up a route for uploading images
+  app.post("/upload", upload.single("file"), async (req, res) => {
+    try {
+      const file = req.file;
+      const key = `${Date.now()}-${file.originalname}`;
+      if (!file || !file.buffer) {
+        return res.status(400).json({ message: "No file uploaded" });
+      }
+      // Call the uploadImage function from the s3.js file
+      const upload = await uploadImage(key, file.buffer, req.file.mimetype);
+      console.log(req.file);
+      res.json({ message: "Image uploaded successfully" });
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ message: "Error uploading image" });
+    }
+  });
 
   // Serve client-side assets in production mode
   if (process.env.NODE_ENV === "production") {
