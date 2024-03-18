@@ -98,8 +98,6 @@ function Profile() {
       return;
     }
     formData.append("file", selectedFile);
-    console.log("selectedFile", selectedFile);
-    console.log("formData", [...formData.entries()]);
     try {
       const response = await fetch("http://localhost:3001/upload", {
         method: "POST",
@@ -110,6 +108,7 @@ function Profile() {
         throw new Error("Failed to upload image");
       }
       const updatedFields = {};
+      
       // Check each field to see if it's been modified
       for (const key in modifiedFields) {
         if (modifiedFields[key]) {

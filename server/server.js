@@ -19,7 +19,7 @@ const app = express();
 const server = new ApolloServer({ typeDefs, resolvers });
 
 // Configure multer for handling file uploads
-const upload = multer({ dest: "uploads/" });
+const upload = multer({ storage: multer.memoryStorage() });
 
 const startApolloServer = async () => {
   await server.start();
@@ -53,7 +53,7 @@ const startApolloServer = async () => {
       // Call the uploadImage function from the s3.js file
       const upload = await uploadImage(key, file.buffer, req.file.mimetype);
       console.log(req.file);
-      res.json({ message: "Image uploaded successfully" });
+      res.json({ imageUrl: upload.Location});
     } catch (error) {
       console.error(error);
       res.status(500).json({ message: "Error uploading image" });
