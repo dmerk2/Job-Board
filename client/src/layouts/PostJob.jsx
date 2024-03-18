@@ -1,11 +1,16 @@
 import { useState } from "react";
 import { useMutation } from "@apollo/client";
 import { ADD_JOB } from "../utils/mutations";
-import { QUERY_JOBS } from "../utils/queries";
+import { QUERY_ALL_JOBS } from "../utils/queries";
+import SuccessModal from "../components/Modals/SuccessModal";
+import ErrorModal from "../components/Modals/ErrorModal";
 
 function PostJob() {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isErrorModalOpen, setIsErrorModalOpen] = useState(false);
+
   const [addJob] = useMutation(ADD_JOB, {
-    refetchQueries: [{ query: QUERY_JOBS }],
+    refetchQueries: [{ query: QUERY_ALL_JOBS}],
   });
   const [formState, setFormState] = useState({
     title: "",
@@ -14,14 +19,14 @@ function PostJob() {
     skills: [],
     newSkill: "", // New state to handle input for adding new skills
   });
-  const [formSubmitted, setFormSubmitted] = useState(false);
+
 
   const handleFormSubmit = async (e) => {
     e.preventDefault();
     // Replace hyphens with spaces to save in database
     const titleWithSpaces = formState.title.replace(/-/g, " ");
     if (formState.skills.length === 0) {
-      alert("Skills must be entered.");
+      setIsErrorModalOpen(true);
       return;
     }
     try {
@@ -41,7 +46,7 @@ function PostJob() {
         skills: [],
         newSkill: "",
       });
-      setFormSubmitted(true);
+      setIsModalOpen(true);
     } catch (error) {
       console.error(error);
     }
@@ -72,6 +77,12 @@ function PostJob() {
 
   return (
     <div className="flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+      {isErrorModalOpen && (
+        <ErrorModal
+          setIsErrorModalOpen={setIsErrorModalOpen}
+          message={"Skills must be entered."}
+        />
+      )}
       <div className="w-full space-y-4">
         <div className="flex">
           <h2 className="mt-6 px-4 py-2 rounded-full text-center text-meteorite mx-auto text-3xl font-bold">
@@ -189,13 +200,11 @@ function PostJob() {
               </button>
             </div>
           </form>
-          {formSubmitted && (
-            <div
-              className="mt-4 bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded-md"
-              role="alert"
-            >
-              <p className="font-bold">Form submitted successfully!</p>
-            </div>
+          {isModalOpen && (
+            <SuccessModal
+              setIsModalOpen={setIsModalOpen}
+              message={"Job posted successfully!"}
+            />
           )}
         </div>
       </div>
