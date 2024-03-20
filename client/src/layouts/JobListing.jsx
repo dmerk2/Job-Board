@@ -1,5 +1,5 @@
 import { useQuery, useMutation } from "@apollo/client";
-import { QUERY_JOB } from "../utils/queries";
+import { QUERY_JOB, QUERY_USER } from "../utils/queries";
 import { useParams } from "react-router-dom";
 import { APPLY_JOB } from "../utils/mutations";
 import auth from "../utils/auth";
@@ -13,7 +13,7 @@ function JobListing() {
   const { id } = useParams();
   const { loading, data } = useQuery(QUERY_JOB, { variables: { id: id } });
   const [applyJobMutation] = useMutation(APPLY_JOB, {
-    refetchQueries: [{ query: QUERY_JOB }],
+    refetchQueries: [{ query: QUERY_USER }],
   });
   const jobTitle = data?.jobListing.title;
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -21,7 +21,7 @@ function JobListing() {
 
   const job = data?.jobListing || [];
   if (loading) {
-    return <Loading/>;
+    return <Loading />;
   }
 
   const applyJob = async () => {
@@ -31,7 +31,6 @@ function JobListing() {
       });
       setIsModalOpen(true);
     } catch (error) {
-      console.error(error.message)
       if (error.message === "You have already applied for this job") {
         setIsErrorModalOpen(true);
       }
