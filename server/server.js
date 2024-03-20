@@ -54,12 +54,14 @@ const startApolloServer = async () => {
       // Call the uploadImage function from the s3.js file
       const upload = await uploadImage(key, file.buffer, req.file.mimetype);
       const userId = req.body._id;
-      const imageUrl = upload.Location;
+      const imageUrl = upload;
       // Update the user's profileImage field in the database
-      await User.findByIdAndUpdate(userId, { profileImage: imageUrl }, { new: true })
-      console.log("userId", userId)
-      console.log(req.file);
-      res.json({ imageUrl: upload.Location});
+      await User.findByIdAndUpdate(
+        userId,
+        { profileImage: imageUrl },
+        { new: true }
+      );
+      res.json({ imageUrl: upload });
     } catch (error) {
       console.error(error);
       res.status(500).json({ message: "Error uploading image" });
