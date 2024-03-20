@@ -18,6 +18,7 @@ const typeDefs = `
   type User {
     _id: ID
     username: String
+    profileImage: String
     email: String
     password: String
     role: String

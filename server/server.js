@@ -11,6 +11,7 @@ const multer = require("multer");
 const { uploadImage } = require("./utils/s3");
 const cors = require("cors");
 const PORT = process.env.PORT || 3001;
+const User = require("./models/User");
 
 // Create an Express application
 const app = express();
@@ -52,6 +53,11 @@ const startApolloServer = async () => {
       }
       // Call the uploadImage function from the s3.js file
       const upload = await uploadImage(key, file.buffer, req.file.mimetype);
+      const userId = req.body._id;
+      const imageUrl = upload.Location;
+      // Update the user's profileImage field in the database
+      await User.findByIdAndUpdate(userId, { profileImage: imageUrl })
+      console.log("userId", userId)
       console.log(req.file);
       res.json({ imageUrl: upload.Location});
     } catch (error) {

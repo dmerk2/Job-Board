@@ -14,7 +14,9 @@ const uploadImage = async (key, file, mimetype) => {
     ContentType: mimetype,
   };
 
-  return s3.upload(params).promise();
+  await s3.upload(params).promise();
+
+  return `https://${process.env.AWS_BUCKET_NAME}.s3.amazonaws.com/${key}`
 };
 
 module.exports = { uploadImage };
