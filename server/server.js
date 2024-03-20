@@ -56,7 +56,7 @@ const startApolloServer = async () => {
       const userId = req.body._id;
       const imageUrl = upload.Location;
       // Update the user's profileImage field in the database
-      await User.findByIdAndUpdate(userId, { profileImage: imageUrl })
+      await User.findByIdAndUpdate(userId, { profileImage: imageUrl }, { new: true })
       console.log("userId", userId)
       console.log(req.file);
       res.json({ imageUrl: upload.Location});

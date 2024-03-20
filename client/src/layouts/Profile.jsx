@@ -23,6 +23,7 @@ function Profile() {
     newSkill: "", // State to hold the value of the new skill input
   });
   const [modifiedFields, setModifiedFields] = useState({});
+  const [profilePictureUrl, setProfilePictureUrl] = useState("https://hoponboardimages.s3.amazonaws.com/Default_Image.jpg");
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isErrorModalOpen, setIsErrorModalOpen] = useState(false);
   const [selectedFile, setSelectedFile] = useState(null);
@@ -31,6 +32,9 @@ function Profile() {
   useEffect(() => {
     if (!loading && data) {
       const user = data.user;
+      if (user.profilePictureUrl) {
+        setProfilePictureUrl(user.profilePictureUrl);
+      }
       setFormData({
         username: user.username,
         email: user.email,
@@ -41,6 +45,7 @@ function Profile() {
         skills: user.skills,
         newSkill: "", // Initialize newSkill as an empty string
       });
+      // setProfilePictureUrl(user.profilePictureUrl);
     }
   }, [loading, data]);
 
@@ -98,6 +103,7 @@ function Profile() {
       return;
     }
     formData.append("file", selectedFile);
+    formData.append("_id", user._id);
     try {
       const response = await fetch("http://localhost:3001/upload", {
         method: "POST",
@@ -107,21 +113,33 @@ function Profile() {
       if (!response.ok) {
         throw new Error("Failed to upload image");
       }
-      const updatedFields = {};
-      
-      // Check each field to see if it's been modified
-      for (const key in modifiedFields) {
-        if (modifiedFields[key]) {
-          updatedFields[key] = formData[key];
-        }
-      }
-      if (Object.keys(updatedFields).length === 0) {
-        setIsErrorModalOpen(true);
-        return;
-      }
+
+      // Get the image URL from the response
+      const data = await response.json();
+      const imageUrl = data.imageUrl;
+
+      // Update the user's account with the image URL
+      const updatedFields = { profilePictureUrl: imageUrl };
       await updateUser({
         variables: updatedFields,
       });
+
+      // Update the profile picture URL state variable
+      setProfilePictureUrl(imageUrl);
+
+      // Update the other user fields
+      const updatedUserFields = {};
+      for (const key in modifiedFields) {
+        if (modifiedFields[key]) {
+          updatedUserFields[key] = formData.get(key);
+        }
+      }
+      if (Object.keys(updatedUserFields).length > 0) {
+        await updateUser({
+          variables: updatedUserFields,
+        });
+      }
+
       setIsModalOpen(true);
     } catch (error) {
       console.error(error);
@@ -151,8 +169,19 @@ function Profile() {
         </h2>
       </div>
       <div className="flex justify-center my-auto mx-auto">
-        <form onSubmit={handleFormSubmit} className="mt-6 w-1/2" encType="multipart/form-data">
+        <form
+          onSubmit={handleFormSubmit}
+          className="mt-6 w-1/2"
+          encType="multipart/form-data"
+        >
+          <label htmlFor="profilePicture" className="text-2xl mr-2">
+            Profile Picture:
+          </label>
+          <img src={profilePictureUrl} alt="Profile" className="profile-picture " />
           <input type="file" onChange={handleFileChange} />
+      
+          <br />
+          <br />
           <label htmlFor="username" className="text-2xl mr-2">
             Username:
           </label>
