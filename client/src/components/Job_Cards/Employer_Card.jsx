@@ -6,14 +6,14 @@ import PropTypes from "prop-types";
 
 function Employer_Card({ jobs, itemsToShow, title }) {
   const { loading } = useQuery(QUERY_ALL_JOBS);
-  const filteredJobs = title ? jobs.filter(job => job.title === title) : jobs;
+  const filteredJobs = title ? jobs.filter((job) => job.title === title) : jobs;
 
   if (loading) return <Loading />;
 
   return (
     <div className=" mx-20 my-10 grid grid-cols-1 xl:grid-cols-4 lg:grid-cols-3 md:grid-cols-2 gap-10">
       {filteredJobs && filteredJobs.length > 0 ? (
-         filteredJobs.slice(0, itemsToShow).map((job) => (
+        filteredJobs.slice(0, itemsToShow).map((job) => (
           <div
             className="max-w-sm rounded overflow-hidden shadow-lg bg-white border border-gray-200"
             key={job._id}
@@ -52,7 +52,7 @@ function Employer_Card({ jobs, itemsToShow, title }) {
 
 Employer_Card.propTypes = {
   jobs: PropTypes.array.isRequired,
-  itemsToShow: PropTypes.number.isRequired,
+  itemsToShow: PropTypes.number,
   title: PropTypes.string,
 };
 
