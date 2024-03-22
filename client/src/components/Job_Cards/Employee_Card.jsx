@@ -26,9 +26,16 @@ function Employee_Card() {
           key={employee._id}
         >
           <div className="px-6 py-4">
-            <div className="font-bold text-2xl text-center mb-2 ">
+            <div className="font-bold text-2xl text-center mb-4">
               {employee.firstName} {employee.lastName}
             </div>
+            <img
+              src={
+                employee.profileImage || import.meta.env.VITE_AWS_DEFAULT_IMAGE
+              }
+              alt="Profile"
+              className="profile-picture-card"
+            />
             <div className="font-bold text-lg">{employee.location}</div>
             <div className="mt-2 text-lg no-underline hover:underline">
               <a href={`mailto:${employee.email}`} style={{ color: "blue" }}>

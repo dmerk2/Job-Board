@@ -7,6 +7,7 @@ import { getUserRole } from "../utils/helpers";
 import SuccessModal from "../components/Modals/SuccessModal";
 import ErrorModal from "../components/Modals/ErrorModal";
 import Loading from "../components/Loading/Loading.jsx";
+import SkillInput from "../components/AddSkills/SkillInput.jsx";
 
 function Profile() {
   const role = getUserRole();
@@ -23,7 +24,9 @@ function Profile() {
     newSkill: "", // State to hold the value of the new skill input
   });
   const [modifiedFields, setModifiedFields] = useState({});
-  const [profilePictureUrl, setProfilePictureUrl] = useState("https://hoponboardimages.s3.amazonaws.com/Default_Image.jpg");
+  const [profilePictureUrl, setProfilePictureUrl] = useState(
+    import.meta.env.VITE_AWS_DEFAULT_IMAGE
+  );
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isErrorModalOpen, setIsErrorModalOpen] = useState(false);
   const [selectedFile, setSelectedFile] = useState(null);
@@ -45,7 +48,6 @@ function Profile() {
         skills: user.skills,
         newSkill: "", // Initialize newSkill as an empty string
       });
-      // setProfilePictureUrl(user.profilePictureUrl);
     }
   }, [loading, data]);
 
@@ -177,9 +179,13 @@ function Profile() {
           <label htmlFor="profilePicture" className="text-2xl mr-2">
             Profile Picture:
           </label>
-          <img src={profilePictureUrl} alt="Profile" className="profile-picture " />
+          <img
+            src={user.profileImage || profilePictureUrl}
+            alt="Profile"
+            className="profile-picture "
+          />
           <input type="file" onChange={handleFileChange} />
-      
+
           <br />
           <br />
           <label htmlFor="username" className="text-2xl mr-2">
@@ -251,109 +257,42 @@ function Profile() {
             onChange={handleChange}
           />
           <br />
-          {role === "employee" ? (
-            <>
-              {/* New skill input */}
-              <label htmlFor="skills" className="text-2xl mr-2">
-                Skills:
-              </label>
-              <label htmlFor="newSkill" className="sr-only">
-                Add Skill
-              </label>
-              <input
-                id="newSkill"
-                name="newSkill"
-                type="text"
-                value={formData.newSkill}
-                onChange={handleChange}
-                placeholder="Add a skill"
-                className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-              />
-              <button
-                type="button"
-                onClick={handleAddSkill}
-                className="mt-2 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-              >
-                Add Skill
-              </button>
-              {/* Display entered skills */}
-              <div className="flex flex-wrap mt-2">
-                {formData.skills.map((skill, index) => (
-                  <div
-                    key={index}
-                    className="bg-gray-100 p-2 rounded-md mr-2 mb-2 flex items-center"
-                  >
-                    <div className="mr-2">{skill}</div>
-                    <button
-                      type="button"
-                      onClick={() => handleRemoveSkill(index)}
-                      className="text-red-600"
-                    >
-                      X
-                    </button>
-                  </div>
-                ))}
-              </div>
-              <br />
-              <h3 className="text-center mb-8 text-2xl font-bold">
-                Previously Applied Jobs
-              </h3>
-              <div className="grid grid-cols-1 xl:grid-cols-3 md:grid-cols-2 gap-10">
-                {user?.appliedJobs?.map((job) => (
-                  <div
-                    className="max-w-sm rounded overflow-hidden shadow-lg bg-white border border-gray-200 mx-4 mb-8"
-                    key={job._id}
-                  >
-                    <div className="px-6 py-4">
-                      <div className="font-bold text-xl mb-2 text-center">
-                        {job.title}
-                      </div>
-                      <div className="px-6 pb-2 flex justify-center">
-                        <Link
-                          to={`/employees/${job.employerId._id}/${job._id}`}
-                        >
-                          <button className="bg-camelot text-white px-4 py-2 mb-2 rounded-md">
-                            View Details
-                          </button>
-                        </Link>
-                      </div>
-                    </div>
-                  </div>
-                ))}
-              </div>
-              <br />
-            </>
-          ) : (
-            <>
-              <h3 className="text-center mb-8 text-2xl font-bold">
-                Posted Jobs
-              </h3>
-              <div className="grid grid-cols-1 xl:grid-cols-3 md:grid-cols-2 gap-10">
-                {user?.listedJobs?.map((job) => (
-                  <div
-                    className="max-w-sm rounded overflow-hidden shadow-lg bg-white border border-gray-200 mb-8"
-                    key={job._id}
-                  >
-                    <div className="px-6 py-4">
-                      <div className="font-bold text-xl mb-2 flex text-center">
-                        {job.title}
-                      </div>
-                      <div className="px-6 pb-2 flex justify-center">
-                        <Link
-                          to={`/employees/${job.employerId._id}/${job._id}`}
-                        >
-                          <button className="bg-camelot text-white px-4 py-2 mb-2 rounded-md">
-                            View Details
-                          </button>
-                        </Link>
-                      </div>
-                    </div>
-                  </div>
-                ))}
-              </div>
-              <br />
-            </>
+          {role === "employee" && (
+            <SkillInput
+              newSkill={formData.newSkill}
+              handleChange={handleChange}
+              handleAddSkill={handleAddSkill}
+              handleRemoveSkill={handleRemoveSkill}
+              formData={formData}
+            />
           )}
+          <h3 className="text-center mb-8 text-2xl font-bold">
+            {role === "employee" ? "Previously Applied Jobs" : "Posted Jobs"}
+          </h3>
+          <div className="grid grid-cols-1 xl:grid-cols-3 md:grid-cols-2 gap-10">
+            {user?.[role === "employee" ? "appliedJobs" : "listedJobs"]?.map(
+              (job) => (
+                <div
+                  className="max-w-sm rounded overflow-hidden shadow-lg bg-white border border-gray-200 mx-4 mb-8"
+                  key={job._id}
+                >
+                  <div className="px-6 py-4">
+                    <div className="font-bold text-xl mb-2 text-center">
+                      {job.title}
+                    </div>
+                    <div className="px-6 pb-2 flex justify-center">
+                      <Link to={`/employees/${job.employerId._id}/${job._id}`}>
+                        <button className="bg-camelot text-white px-4 py-2 mb-2 rounded-md">
+                          View Details
+                        </button>
+                      </Link>
+                    </div>
+                  </div>
+                </div>
+              )
+            )}
+          </div>
+          <br />
           <button
             type="submit"
             className="group relative w-full md:w-1/4 flex mx-auto justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"

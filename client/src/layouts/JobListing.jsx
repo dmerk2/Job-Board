@@ -52,10 +52,15 @@ function JobListing() {
                       will be in touch.`}
         />
       )}
-      <h2 className="font-bold text-2xl mb-2 text-center">
+      <h2 className="font-bold text-4xl mb-4 text-center">
         {job.employerId.username}
       </h2>
-      <h3 className="font-bold text-xl mb-2">{job.title}</h3>
+      <img
+        src={job.profileImage || import.meta.env.VITE_AWS_DEFAULT_IMAGE}
+        alt="Profile"
+        className="profile-picture "
+      />
+      <h3 className="font-bold text-xl mb-2 text-center pt-5">{job.title}</h3>
       <h4 className="font-bold text-gray-700 mb-4">{job.location}</h4>
       <p className="text-gray-700 mb-4">{job.description}</p>
       <div>
