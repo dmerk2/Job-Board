@@ -24,7 +24,8 @@ body {
 .profile-picture {
   height: 200px;
   object-fit: cover;
-  max-width: 40%;
+  width: 50%;
+
 }
 
 
