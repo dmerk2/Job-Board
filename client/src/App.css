@@ -45,3 +45,23 @@ input::file-selector-button {
 input::file-selector-button:hover {
   background: #4338ca;
 }
+
+.profile-picture {
+  width: 18rem;
+  height: 18rem;
+  border-radius: 50%;
+  object-fit: cover;
+  margin: 0 auto;
+  border: 2px solid var(--blue_marguerite);
+  padding: 5px;
+}
+
+.profile-picture-card {
+  width: 10rem;
+  height: 10rem;
+  border-radius: 50%;
+  object-fit: cover;
+  margin: 0 auto;
+  border: 2px solid var(--blue_marguerite);
+  padding: 5px;
+}

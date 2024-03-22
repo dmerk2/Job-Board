@@ -19,10 +19,15 @@ function Employer_Card({ jobs, itemsToShow, title }) {
             key={job._id}
           >
             <div className="px-6 py-4">
-              <h2 className="font-bold text-2xl mb-2 text-center">
+              <h2 className="font-bold text-2xl mb-4 text-center">
                 {job.employerId.username}
               </h2>
-              <p className="font-bold text-xl mb-2">{job.title}</p>
+              <img
+                src={job.profileImage || import.meta.env.VITE_AWS_DEFAULT_IMAGE}
+                alt="Profile"
+                className="profile-picture-card"
+              />
+              <p className="font-bold text-xl mb-2 pt-5 text-center">{job.title}</p>
               <p className="font-bold text-lg mb-2">{job.location}</p>
               <div className="flex mb-6">
                 <div className="font-bold mr-3">Posted on: </div>

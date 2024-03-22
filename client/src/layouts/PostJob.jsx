@@ -4,15 +4,16 @@ import { ADD_JOB } from "../utils/mutations";
 import { QUERY_ALL_JOBS } from "../utils/queries";
 import SuccessModal from "../components/Modals/SuccessModal";
 import ErrorModal from "../components/Modals/ErrorModal";
+import SkillInput from "../components/AddSkills/SkillInput";
 
 function PostJob() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isErrorModalOpen, setIsErrorModalOpen] = useState(false);
 
   const [addJob] = useMutation(ADD_JOB, {
-    refetchQueries: [{ query: QUERY_ALL_JOBS}],
+    refetchQueries: [{ query: QUERY_ALL_JOBS }],
   });
-  const [formState, setFormState] = useState({
+  const [formData, setFormData] = useState({
     title: "",
     description: "",
     location: "",
@@ -20,12 +21,10 @@ function PostJob() {
     newSkill: "", // New state to handle input for adding new skills
   });
 
-
   const handleFormSubmit = async (e) => {
     e.preventDefault();
-    // Replace hyphens with spaces to save in database
-    const titleWithSpaces = formState.title.replace(/-/g, " ");
-    if (formState.skills.length === 0) {
+    const titleWithSpaces = formData.title.replace(/-/g, " ");
+    if (formData.skills.length === 0) {
       setIsErrorModalOpen(true);
       return;
     }
@@ -33,13 +32,12 @@ function PostJob() {
       await addJob({
         variables: {
           title: titleWithSpaces,
-          description: formState.description,
-          location: formState.location,
-          skills: formState.skills,
+          description: formData.description,
+          location: formData.location,
+          skills: formData.skills,
         },
       });
-      // Clear form after successful submission
-      setFormState({
+      setFormData({
         title: "",
         description: "",
         location: "",
@@ -54,22 +52,22 @@ function PostJob() {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormState({ ...formState, [name]: value });
+    setFormData({ ...formData, [name]: value });
   };
 
   const addSkill = (e) => {
     e.preventDefault();
-    if (formState.newSkill.trim() !== "") {
-      setFormState({
-        ...formState,
-        skills: [...formState.skills, formState.newSkill],
+    if (formData.newSkill.trim() !== "") {
+      setFormData({
+        ...formData,
+        skills: [...formData.skills, formData.newSkill],
         newSkill: "",
       });
     }
   };
 
   const handleRemoveSkill = (index) => {
-    setFormState((prevFormData) => ({
+    setFormData((prevFormData) => ({
       ...prevFormData,
       skills: prevFormData.skills.filter((_, i) => i !== index),
     }));
@@ -91,8 +89,8 @@ function PostJob() {
         </div>
         <div className="flex justify-center mx-auto">
           <form className="mt-8 w-1/2" onSubmit={handleFormSubmit}>
-            <div className="flex">
-              <div className="w-full lg:w-1/2 space-y-4">
+            <div className="flex flex-wrap">
+              <div className="w-full lg:w-1/2 space-y-4 px-4">
                 <div>
                   <label htmlFor="title" className="sr-only">
                     Job Title
@@ -105,7 +103,7 @@ function PostJob() {
                     required
                     className="appearance-none rounded-md shadow-sm relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
                     placeholder="Job Title"
-                    value={formState.title}
+                    value={formData.title}
                     onChange={handleChange}
                   />
                 </div>
@@ -121,7 +119,7 @@ function PostJob() {
                     className="appearance-none rounded-md shadow-sm relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
                     placeholder="Job Description"
                     rows="4"
-                    value={formState.description}
+                    value={formData.description}
                     onChange={handleChange}
                   />
                 </div>
@@ -135,63 +133,24 @@ function PostJob() {
                     type="text"
                     autoComplete="location"
                     required
-                    className="appearance-none rounded-md shadow-sm relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-                    placeholder="Job Location"
-                    value={formState.location}
+                    className="appearance-none rounded-md shadow-sm relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+                    placeholder="Job location"
+                    value={formData.location}
                     onChange={handleChange}
                   />
                 </div>
               </div>
-              <div className="w-full lg:w-1/2">
-                <div className="flex justify-center mx-auto space-x-4">
-                  <label htmlFor="skills" className="sr-only">
-                    Skills Needed
-                  </label>
-                  <input
-                    id="skills"
-                    name="newSkill"
-                    type="text"
-                    autoComplete="skills"
-                    value={formState.newSkill}
-                    onChange={handleChange}
-                    onKeyDown={(e) => {
-                      if (e.key === "Enter") {
-                        e.preventDefault();
-                        addSkill(e);
-                      }
-                    }}
-                    placeholder="Add a skill"
-                    className="appearance-none mr-6 rounded-md shadow-sm relative block w-2/5 px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-                  />
-                  <button
-                    type="button"
-                    onClick={addSkill}
-                    className="w-2/5 my-auto py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-blue_marguerite hover:bg-meteorite"
-                  >
-                    Add Skill
-                  </button>
-                </div>
-                {/* Display entered skills */}
-                <div className="flex flex-wrap mt-2 justify-center">
-                  {formState.skills.map((skill, index) => (
-                    <div
-                      key={index}
-                      className="bg-gray-100 p-2 rounded-md mr-2 mb-2 flex items-center"
-                    >
-                      <div className="mr-2">{skill}</div>
-                      <button
-                        type="button"
-                        onClick={() => handleRemoveSkill(index)}
-                        className="text-red-600"
-                      >
-                        X
-                      </button>
-                    </div>
-                  ))}
-                </div>
+              <div className="w-full lg:w-1/2 space-y-4 px-4">
+                <SkillInput
+                  newSkill={formData.newSkill}
+                  handleChange={handleChange}
+                  handleAddSkill={addSkill}
+                  handleRemoveSkill={handleRemoveSkill}
+                  formData={formData}
+                />
               </div>
             </div>
-            <div>
+            <div className="w-full text-center">
               <button
                 type="submit"
                 className="w-1/4 flex justify-center mt-4 mx-auto py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-blue_marguerite hover:bg-meteorite"

@@ -5,6 +5,7 @@ export const QUERY_USERS = gql`
     users(role: $role) {
       _id
       username
+      profileImage
       email
       role
       firstName
@@ -35,6 +36,7 @@ export const QUERY_USER = gql`
     user {
       _id
       username
+      profileImage
       email
       role
       firstName
@@ -58,13 +60,13 @@ export const QUERY_USER = gql`
         location
         employerId {
           _id
-        } 
+        }
       }
       location
       skills
     }
   }
-`; 
+`;
 
 export const QUERY_JOBS = gql`
   query getJobs($title: String!) {

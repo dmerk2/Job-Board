@@ -50,7 +50,7 @@ const typeDefs = `
     addUser(username: String!, email: String!, password: String!, role: String!): Auth
     addJob(title: String!, description: String!, location: String!, skills: [String!]): Job
     applyJob(jobId: ID!): Application
-    updateUser(username: String, email: String, password: String, firstName: String, lastName: String, bio: String, location: String, skills: [String]): User
+    updateUser(username: String, profileImage: String, email: String, password: String, firstName: String, lastName: String, bio: String, location: String, skills: [String]): User
   }
 `;
 
