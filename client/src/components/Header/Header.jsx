@@ -5,11 +5,16 @@ import Logo from "../../assets/Hop_On_Board_Logo.png";
 import { getUserRole } from "../../utils/helpers";
 import BrandName from "../../assets/Hop_On_Board_Name.png";
 import { useState } from "react";
+import { QUERY_USER } from "../../utils/queries";
+import { useQuery } from "@apollo/client";
 
 const Header = () => {
   const role = getUserRole();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const userId = Auth.loggedIn() ? Auth.getProfile().data._id : null;
+  const { data } = useQuery(QUERY_USER);
+  const user = data?.user || {};
+
   return (
     <header>
       <nav className="bg-athens_gray border-b-5 border-blue_marguerite px-4 text-2xl lg:px-6 py-2.5">
@@ -24,19 +29,37 @@ const Header = () => {
           </Link>
           <div className="flex items-center text-2xl lg:order-2">
             {Auth.loggedIn() ? (
-              <Link
-                onClick={() => Auth.logout()}
-                className="block py-2 pr-4 pl-3 text-camelot hover:border-b-2 border-camelot lg:p-0"
-              >
-                Log Out
-              </Link>
+              <>
+                <Link
+                  onClick={() => Auth.logout()}
+                  className="block py-2 pr-4 pl-3 text-camelot hover:border-b-2 border-camelot lg:p-0"
+                >
+                  Log Out
+                </Link>
+                <img
+                  src={
+                    user.profileImage || import.meta.env.VITE_AWS_DEFAULT_IMAGE
+                  }
+                  alt="Profile"
+                  className="w-10 h-10 ml-4 rounded-full object-cover lg:w-12 lg:h-12"
+                />
+              </>
             ) : (
-              <Link
-                to="/login"
-                className="block py-2 pr-4 pl-3 text-camelot hover:border-b-2 border-camelot lg:p-0"
-              >
-                Log In
-              </Link>
+              <>
+                <Link
+                  to="/login"
+                  className="block py-2 pr-4 pl-3 text-camelot hover:border-b-2 border-camelot lg:p-0"
+                >
+                  Log In
+                </Link>
+                <img
+                  src={
+                    user.profileImage || import.meta.env.VITE_AWS_DEFAULT_IMAGE
+                  }
+                  alt="Profile"
+                  className="w-10 h-10 ml-4 rounded-full object-cover lg:w-12 lg:h-12"
+                />
+              </>
             )}
             <button
               data-collapse-toggle="mobile-menu-2"
@@ -75,7 +98,7 @@ const Header = () => {
               </svg>
             </button>
           </div>
-          <div 
+          <div
             className={`${
               isMenuOpen
                 ? "block"
