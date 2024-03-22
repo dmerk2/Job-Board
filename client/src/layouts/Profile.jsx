@@ -11,7 +11,9 @@ import SkillInput from "../components/AddSkills/SkillInput.jsx";
 
 function Profile() {
   const role = getUserRole();
-  const [updateUser] = useMutation(UPDATE_USER);
+  const [updateUser] = useMutation(UPDATE_USER, {
+    refetchQueries: [{ query: QUERY_USER }],
+  });
   const { loading, data, error } = useQuery(QUERY_USER);
   const [formData, setFormData] = useState({
     username: "",
@@ -170,13 +172,13 @@ function Profile() {
           Profile
         </h2>
       </div>
-      <div className="flex justify-center my-auto mx-auto">
+      <div className="flex justify-center my-auto mx-0 md:mx-auto">
         <form
           onSubmit={handleFormSubmit}
           className="mt-6 w-1/2"
           encType="multipart/form-data"
         >
-          <label htmlFor="profilePicture" className="text-2xl mr-2">
+          <label htmlFor="profilePicture" className="sr-only text-2xl mr-2">
             Profile Picture:
           </label>
           <img
@@ -184,78 +186,84 @@ function Profile() {
             alt="Profile"
             className="profile-picture "
           />
-          <input type="file" onChange={handleFileChange} />
+          <input type="file" onChange={handleFileChange} className="flex justify-center mx-auto"/>
 
           <br />
           <br />
-          <label htmlFor="username" className="text-2xl mr-2">
-            Username:
-          </label>
-          <input
-            id="username"
-            type="text"
-            name="username"
-            value={formData.username}
-            className="appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-camelot focus:border-camelot focus:z-10 sm:text-sm"
-            onChange={handleChange}
-          />
-          <br />
-          <label htmlFor="email" className="text-2xl mr-2">
-            Email:
-          </label>
-          <input
-            id="email"
-            type="email"
-            name="email"
-            value={formData.email}
-            className="appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-camelot focus:border-camelot focus:z-10 sm:text-sm"
-            onChange={handleChange}
-          />
-          <br />
-          <label htmlFor="firstName" className="text-2xl mr-2">
-            Name:
-          </label>
-          <div className="flex gap-3">
-            <input
-              id="firstName"
-              type="text"
-              name="firstName"
-              value={formData.firstName}
-              className="appearance-none relative block w-1/2 px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-camelot focus:border-camelot focus:z-10 sm:text-sm"
-              onChange={handleChange}
-            />
-            <input
-              id="lastName"
-              type="text"
-              name="lastName"
-              value={formData.lastName}
-              className="appearance-none relative block w-1/2 px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-camelot focus:border-camelot focus:z-10 sm:text-sm"
-              onChange={handleChange}
-            />
+          <div className="grid xl:grid-cols-2 gap-4">
+            <div className=" xl:pr-4">
+              <label htmlFor="username" className="text-2xl mr-2">
+                Username:
+              </label>
+              <input
+                id="username"
+                type="text"
+                name="username"
+                value={formData.username}
+                className="appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-camelot focus:border-camelot focus:z-10 sm:text-sm"
+                onChange={handleChange}
+              />
+              <br />
+              <label htmlFor="email" className="text-2xl mr-2">
+                Email:
+              </label>
+              <input
+                id="email"
+                type="email"
+                name="email"
+                value={formData.email}
+                className="appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-camelot focus:border-camelot focus:z-10 sm:text-sm"
+                onChange={handleChange}
+              />
+              <br />
+              <label htmlFor="firstName" className="text-2xl mr-2">
+                Name:
+              </label>
+              <div className="flex gap-3">
+                <input
+                  id="firstName"
+                  type="text"
+                  name="firstName"
+                  value={formData.firstName}
+                  className="appearance-none relative block w-1/2 px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-camelot focus:border-camelot focus:z-10 sm:text-sm"
+                  onChange={handleChange}
+                />
+                <input
+                  id="lastName"
+                  type="text"
+                  name="lastName"
+                  value={formData.lastName}
+                  className="appearance-none relative block w-1/2 px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-camelot focus:border-camelot focus:z-10 sm:text-sm"
+                  onChange={handleChange}
+                />
+              </div>
+            </div>
+            <div className="xl:pl-4">
+              <label htmlFor="bio" className="text-2xl mr-2">
+                Bio:
+              </label>
+              <textarea
+                id="bio"
+                name="bio"
+                value={formData.bio}
+                rows="6"
+                className="appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-camelot focus:border-camelot focus:z-10 sm:text-sm"
+                onChange={handleChange}
+              />
+              <br />
+              <label htmlFor="location" className="text-2xl mr-2">
+                Location:
+              </label>
+              <input
+                id="location"
+                type="text"
+                name="location"
+                value={formData.location}
+                className="appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-camelot focus:border-camelot focus:z-10 sm:text-sm"
+                onChange={handleChange}
+              />
+            </div>
           </div>
-          <br />
-          <label htmlFor="bio" className="text-2xl mr-2">
-            Bio:
-          </label>
-          <textarea
-            id="bio"
-            name="bio"
-            value={formData.bio}
-            className="appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-camelot focus:border-camelot focus:z-10 sm:text-sm"
-            onChange={handleChange}
-          />
-          <br />
-          <label htmlFor="location" className="text-2xl mr-2">
-            Location:
-          </label>
-          <input
-            id="location"
-            type="text"
-            name="location"
-            value={formData.location}
-            className="appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-camelot focus:border-camelot focus:z-10 sm:text-sm"
-            onChange={handleChange}
-          />
           <br />
           {role === "employee" && (
             <SkillInput
