@@ -83,17 +83,17 @@ function PostJob() {
       )}
       <div className="w-full space-y-4">
         <div className="flex">
-          <h2 className="mt-6 px-4 py-2 rounded-full text-center text-meteorite mx-auto text-3xl font-bold">
+          <h2 className="mt-6 px-4 py-2 rounded-full text-center mx-auto text-3xl font-bold">
             Post a Job
           </h2>
         </div>
-        <div className="flex justify-center mx-auto">
+        <div className="flex justify-center mx-auto w-full">
           <form className="mt-8 w-1/2" onSubmit={handleFormSubmit}>
             <div className="flex flex-wrap">
               <div className="w-full lg:w-1/2 space-y-4 px-4">
                 <div>
-                  <label htmlFor="title" className="sr-only">
-                    Job Title
+                  <label htmlFor="firstName" className="text-2xl mr-2">
+                    Job Title:
                   </label>
                   <input
                     id="title"
@@ -102,30 +102,14 @@ function PostJob() {
                     autoComplete="title"
                     required
                     className="appearance-none rounded-md shadow-sm relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-                    placeholder="Job Title"
+                    placeholder="Add a job title."
                     value={formData.title}
                     onChange={handleChange}
                   />
                 </div>
                 <div>
-                  <label htmlFor="description" className="sr-only">
-                    Job Description
-                  </label>
-                  <textarea
-                    id="description"
-                    name="description"
-                    autoComplete="description"
-                    required
-                    className="appearance-none rounded-md shadow-sm relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-                    placeholder="Job Description"
-                    rows="4"
-                    value={formData.description}
-                    onChange={handleChange}
-                  />
-                </div>
-                <div>
-                  <label htmlFor="location" className="sr-only">
-                    Job Location
+                  <label htmlFor="location" className="text-2xl mr-2">
+                    Location:
                   </label>
                   <input
                     id="location"
@@ -134,26 +118,44 @@ function PostJob() {
                     autoComplete="location"
                     required
                     className="appearance-none rounded-md shadow-sm relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-                    placeholder="Job location"
+                    placeholder="Add a location."
                     value={formData.location}
                     onChange={handleChange}
                   />
                 </div>
               </div>
               <div className="w-full lg:w-1/2 space-y-4 px-4">
-                <SkillInput
-                  newSkill={formData.newSkill}
-                  handleChange={handleChange}
-                  handleAddSkill={addSkill}
-                  handleRemoveSkill={handleRemoveSkill}
-                  formData={formData}
-                />
+                <div>
+                  <label htmlFor="bio" className="text-2xl mr-2">
+                    Job Description:
+                  </label>
+                  <textarea
+                    id="description"
+                    name="description"
+                    autoComplete="description"
+                    required
+                    className="appearance-none rounded-md shadow-sm relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+                    placeholder="Add a job description."
+                    rows="5"
+                    value={formData.description}
+                    onChange={handleChange}
+                  />
+                </div>
               </div>
+            </div>
+            <div className="w-full mt-4 flex justify-center">
+            <SkillInput
+              newSkill={formData.newSkill}
+              handleChange={handleChange}
+              handleAddSkill={addSkill}
+              handleRemoveSkill={handleRemoveSkill}
+              formData={formData}
+            />
             </div>
             <div className="w-full text-center">
               <button
                 type="submit"
-                className="w-1/4 flex justify-center mt-4 mx-auto py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-blue_marguerite hover:bg-meteorite"
+                className="w-1/4 flex justify-center mt-6 mx-auto py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700"
               >
                 Post Job
               </button>

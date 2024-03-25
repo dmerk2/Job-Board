@@ -186,8 +186,12 @@ function Profile() {
             alt="Profile"
             className="profile-picture "
           />
-          <input type="file" onChange={handleFileChange} className="flex justify-center mx-auto"/>
-
+          <div className="  mt-6 md:border md:border-gray-300 md:text-gray-900 text-sm outline-none rounded-md w-max cursor-pointer mx-auto block">
+            <label className="block md:hidden bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg px-3 py-2 cursor-pointer">Choose File
+            <input type="file" onChange={handleFileChange} className="hidden"/>
+            </label>
+            <input type="file" onChange={handleFileChange} className="hidden md:block"/>
+          </div>
           <br />
           <br />
           <div className="grid xl:grid-cols-2 gap-4">
@@ -219,13 +223,13 @@ function Profile() {
               <label htmlFor="firstName" className="text-2xl mr-2">
                 Name:
               </label>
-              <div className="flex gap-3">
+              <div className="grid md:grid-cols-2 gap-3">
                 <input
                   id="firstName"
                   type="text"
                   name="firstName"
                   value={formData.firstName}
-                  className="appearance-none relative block w-1/2 px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-camelot focus:border-camelot focus:z-10 sm:text-sm"
+                  className="appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-camelot focus:border-camelot focus:z-10 sm:text-sm"
                   onChange={handleChange}
                 />
                 <input
@@ -233,7 +237,7 @@ function Profile() {
                   type="text"
                   name="lastName"
                   value={formData.lastName}
-                  className="appearance-none relative block w-1/2 px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-camelot focus:border-camelot focus:z-10 sm:text-sm"
+                  className="appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-camelot focus:border-camelot focus:z-10 sm:text-sm"
                   onChange={handleChange}
                 />
               </div>
@@ -274,10 +278,17 @@ function Profile() {
               formData={formData}
             />
           )}
-          <h3 className="text-center mb-8 text-2xl font-bold">
+           <br />
+          <button
+            type="submit"
+            className="group relative w-full md:w-1/2 lg:w-1/4 flex mx-auto justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+          >
+            Update Profile
+          </button>
+          <h3 className="text-center mt-4 mb-8 text-2xl font-bold">
             {role === "employee" ? "Previously Applied Jobs" : "Posted Jobs"}
           </h3>
-          <div className="grid grid-cols-1 xl:grid-cols-3 md:grid-cols-2 gap-10">
+          <div className="grid grid-cols-1 xl:grid-cols-3 lg:grid-cols-2 gap-10">
             {user?.[role === "employee" ? "appliedJobs" : "listedJobs"]?.map(
               (job) => (
                 <div
@@ -285,28 +296,36 @@ function Profile() {
                   key={job._id}
                 >
                   <div className="px-6 py-4">
-                    <div className="font-bold text-xl mb-2 text-center">
-                      {job.title}
-                    </div>
-                    <div className="px-6 pb-2 flex justify-center">
-                      <Link to={`/employees/${job.employerId._id}/${job._id}`}>
-                        <button className="bg-camelot text-white px-4 py-2 mb-2 rounded-md">
-                          View Details
-                        </button>
-                      </Link>
-                    </div>
+                    <Link to={`/employees/${job.employerId._id}/${job._id}`}>
+                      <div className="font-bold text-xl mb-2 text-center">
+                        <img
+                          src={
+                            job.profileImage ||
+                            import.meta.env.VITE_AWS_DEFAULT_IMAGE
+                          }
+                          alt="Profile"
+                          className="mini-picture-card"
+                        />
+
+                        <p className="font-bold">{job.title}</p>
+                        <p className="font-medium">{job.location}</p>
+                        <div className="font-thin">Posted on: </div>
+                        <div className="font-thin">
+                          {new Date(parseInt(job.createdAt)).toLocaleDateString(
+                            "en-US",
+                            {
+                              timeZone: "UTC",
+                            }
+                          )}
+                        </div>
+                      </div>
+                    </Link>
                   </div>
                 </div>
               )
             )}
           </div>
-          <br />
-          <button
-            type="submit"
-            className="group relative w-full md:w-1/4 flex mx-auto justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-          >
-            Update Profile
-          </button>
+         
         </form>
       </div>
     </div>
