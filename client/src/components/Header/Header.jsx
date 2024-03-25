@@ -41,7 +41,7 @@ const Header = () => {
                     user.profileImage || import.meta.env.VITE_AWS_DEFAULT_IMAGE
                   }
                   alt="Profile"
-                  className="w-10 h-10 ml-4 rounded-full object-cover lg:w-12 lg:h-12"
+                  className="w-10 h-10 ml-4 rounded-full object-cover lg:w-12 lg:h-12 border-2 border-blue_marguerite"
                 />
               </>
             ) : (
@@ -57,7 +57,7 @@ const Header = () => {
                     user.profileImage || import.meta.env.VITE_AWS_DEFAULT_IMAGE
                   }
                   alt="Profile"
-                  className="w-10 h-10 ml-4 rounded-full object-cover lg:w-12 lg:h-12"
+                  className="w-10 h-10 ml-4 rounded-full object-cover lg:w-12 lg:h-12 border-2 border-blue_marguerite"
                 />
               </>
             )}
