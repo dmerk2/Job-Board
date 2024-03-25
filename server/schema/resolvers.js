@@ -1,7 +1,6 @@
 const { signToken, AuthenticationError } = require("../utils/auth");
 const { User, Job, Application } = require("../models");
-// const sendEmail = require("../utils/nodeMailer");
-const { uploadImage } = require("../utils/s3");
+const { sendEmail } = require("../utils/SES");
 
 const resolvers = {
   Query: {
@@ -88,8 +87,27 @@ const resolvers = {
         // Update the appliedJobs array
         user.appliedJobs.push(jobId);
 
+        // Update the Application model with the new applicant
+        await Application.findOneAndUpdate(
+          { jobId: jobId },
+          { $push: { applicantId: user._id } },
+          { new: true, upsert: true }
+        );
+
         // Save the user
         const updatedUser = await user.save();
+
+        // // Get the employer's email
+        // const employer = await User.findById(job.employerId);
+        // const employerEmail = employer.email;
+
+        // // Send an email to the employer
+        // await sendEmail(
+        //   "hoponjobboard@gmail.com",
+        //   "no-reply@hoponjobboard.com",
+        //   "New Job Application",
+        //   `User ${updatedUser.username} has applied for your job: ${job.title}`
+        // );
 
         // Return some indication of success
         return { success: true, user: updatedUser };
@@ -99,12 +117,10 @@ const resolvers = {
     login: async (parent, { email, password }) => {
       const user = await User.findOne({ email });
       if (!user) {
-        console.error("User not found");
         throw AuthenticationError;
       }
       const correctPw = await user.isCorrectPassword(password);
       if (!correctPw) {
-        console.error("Incorect password");
         throw AuthenticationError;
       }
       const token = signToken(user);
