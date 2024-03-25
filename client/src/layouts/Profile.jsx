@@ -101,53 +101,54 @@ function Profile() {
 
   const handleFormSubmit = async (e) => {
     e.preventDefault();
-    const formData = new FormData();
-    if (!selectedFile) {
-      console.error("No file selected");
-      return;
-    }
-    formData.append("file", selectedFile);
-    formData.append("_id", user._id);
-    try {
-      const response = await fetch("http://localhost:3001/upload", {
-        method: "POST",
-        body: formData,
-      });
-
-      if (!response.ok) {
-        throw new Error("Failed to upload image");
-      }
-
-      // Get the image URL from the response
-      const data = await response.json();
-      const imageUrl = data.imageUrl;
-
-      // Update the user's account with the image URL
-      const updatedFields = { profilePictureUrl: imageUrl };
-      await updateUser({
-        variables: updatedFields,
-      });
-
-      // Update the profile picture URL state variable
-      setProfilePictureUrl(imageUrl);
-
-      // Update the other user fields
-      const updatedUserFields = {};
-      for (const key in modifiedFields) {
-        if (modifiedFields[key]) {
-          updatedUserFields[key] = formData.get(key);
-        }
-      }
-      if (Object.keys(updatedUserFields).length > 0) {
-        await updateUser({
-          variables: updatedUserFields,
+    const uploadData = new FormData();
+  
+    // Only append file to formData if a file is selected
+    if (selectedFile) {
+      uploadData.append("file", selectedFile);
+      uploadData.append("_id", user._id);
+  
+      try {
+        const response = await fetch("http://localhost:3001/upload", {
+          method: "POST",
+          body: uploadData,
         });
+  
+        if (!response.ok) {
+          throw new Error("Failed to upload image");
+        }
+  
+        // Get the image URL from the response
+        const data = await response.json();
+        const imageUrl = data.imageUrl;
+  
+        // Update the user's account with the image URL
+        const updatedFields = { profilePictureUrl: imageUrl };
+        await updateUser({
+          variables: updatedFields,
+        });
+  
+        // Update the profile picture URL state variable
+        setProfilePictureUrl(imageUrl);
+      } catch (error) {
+        console.error(error);
       }
-
-      setIsModalOpen(true);
-    } catch (error) {
-      console.error(error);
     }
+  
+    // Update the other user fields
+    const updatedUserFields = {};
+    for (const key in modifiedFields) {
+      if (modifiedFields[key]) {
+        updatedUserFields[key] = formData[key];
+      }
+    }
+    if (Object.keys(updatedUserFields).length > 0) {
+      await updateUser({
+        variables: updatedUserFields,
+      });
+    }
+  
+    setIsModalOpen(true);
   };
 
   if (loading) return <Loading />;
@@ -298,15 +299,6 @@ function Profile() {
                   <div className="px-6 py-4">
                     <Link to={`/employees/${job.employerId._id}/${job._id}`}>
                       <div className="font-bold text-xl mb-2 text-center">
-                        <img
-                          src={
-                            job.profileImage ||
-                            import.meta.env.VITE_AWS_DEFAULT_IMAGE
-                          }
-                          alt="Profile"
-                          className="mini-picture-card"
-                        />
-
                         <p className="font-bold">{job.title}</p>
                         <p className="font-medium">{job.location}</p>
                         <div className="font-thin">Posted on: </div>
