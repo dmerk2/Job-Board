@@ -109,7 +109,8 @@ function Profile() {
       uploadData.append("_id", user._id);
   
       try {
-        const response = await fetch("http://localhost:3001/upload", {
+        const serverURL = process.env.NODE_ENV === 'production' ? "https://job-board-7cc9.onrender.com" : 'http://localhost:3001/upload';
+        const response = await fetch(serverURL, {
           method: "POST",
           body: uploadData,
         });
@@ -299,6 +300,7 @@ function Profile() {
                   <div className="px-6 py-4">
                     <Link to={`/employees/${job.employerId._id}/${job._id}`}>
                       <div className="font-bold text-xl mb-2 text-center">
+                        {console.log("Job:", job)}
                         <p className="font-bold">{job.title}</p>
                         <p className="font-medium">{job.location}</p>
                         <div className="font-thin">Posted on: </div>
