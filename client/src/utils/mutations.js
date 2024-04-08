@@ -41,6 +41,10 @@ export const ADD_JOB = gql`
       location
       createdAt
       skills
+      employer {
+        _id
+        username
+      }
     }
   }
 `;

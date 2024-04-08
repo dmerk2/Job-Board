@@ -65,7 +65,7 @@ const resolvers = {
         await User.findByIdAndUpdate(context.user._id, {
           $push: { listedJobs: job._id },
         });
-        return job;
+        return Job.findById(job._id).populate("employer");
       }
       throw AuthenticationError;
     },
