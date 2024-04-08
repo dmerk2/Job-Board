@@ -124,7 +124,7 @@ function Profile() {
         const imageUrl = data.imageUrl;
   
         // Update the user's account with the image URL
-        const updatedFields = { profilePictureUrl: imageUrl };
+        const updatedFields = { profileImage: imageUrl };
         await updateUser({
           variables: updatedFields,
         });
